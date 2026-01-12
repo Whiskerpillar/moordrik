@@ -8,7 +8,7 @@ if [ -z "$SUDO_USER" ]; then
     exit 1
  fi
 
-rm /usr/local/bin/mordrik
+rm /usr/local/bin/moordrik
 
 cp ${ORIGINAL_USER_HOME}/moordrik/moordrik.sh /usr/local/bin/moordrik
 chmod +x /usr/local/bin/moordrik
