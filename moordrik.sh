@@ -3,8 +3,11 @@
 #Also known as Moordrik the Vast
 #1.0
 
+#wizard	install /opt/outernet /install/ModuleName.manifest 
 
-
+#Version of the Wizard. To prevent old or mismatched manifests running. 
+ARCANE_TALENT=1
+#Collects the logged in users home file path. 
 ORIGINAL_USER_HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6)
 
 
@@ -15,10 +18,7 @@ if [ -z "$SUDO_USER" ]; then
  fi
 
 
-
-
-
-
+#Starts Main
 case "$1" in
 
   "install" )
@@ -29,7 +29,13 @@ case "$1" in
 	    echo "Error: Manifest file '$MANIFEST_LOCATION' not found. Exiting."
 	    exit 1
 	fi
+	
   	source $MANIFEST_LOCATION
+
+	if (( ARCANE_VERSION <= ARCANE_TALENT )); then
+		echo "You have insulted the wizard... Manifest Version $ARCANE_VERSION is too low for a Wizard of Version $ARCANE_TALENT skill. Halting."
+	    exit 1
+	fi
 
   	INSTALL_LOCATION="${2}${BASE_FILEPATH}"
     echo
@@ -164,9 +170,14 @@ case "$1" in
 	    echo "Error: Uninstall: Manifest file '$MANIFEST_LOCATION' not found. Exiting."
 	    exit 1
 	fi
+	
   	source $MANIFEST_LOCATION
     
-   
+   	if (( ARCANE_VERSION <= ARCANE_TALENT )); then
+		echo "You have insulted the wizard... Manifest Version $ARCANE_VERSION is too low for a Wizard of Version $ARCANE_TALENT skill. Halting."
+	    exit 1
+	fi
+	
     echo "uninstalling: $MODULE_NAME"
 
 	echo "Removing Scripts"
