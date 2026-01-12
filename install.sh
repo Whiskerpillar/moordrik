@@ -10,5 +10,5 @@ if [ -z "$SUDO_USER" ]; then
 
 rm /usr/local/bin/mordrik
 
-cp ${ORIGINAL_USER_HOME}/moordrik/moordrik.sh /usr/local/bin/moodrik
+cp ${ORIGINAL_USER_HOME}/moordrik/moordrik.sh /usr/local/bin/moordrik
 chmod +x /usr/local/bin/moordrik
