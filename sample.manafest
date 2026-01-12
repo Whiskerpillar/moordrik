@@ -29,6 +29,12 @@ BASE_FILEPATH=/sample
       #FILES_TO_LINK[SourcePath]="DestinationPath"
 
 
+#Files to mark as executable.
+  #Full system file path
+    declare -a FILES_TO_EXECUT=(
+      #"/usr/default.sh"
+    )
+
 #Files to cleanup on the system.
   #Full system file path
     declare -a FILES_TO_CLEANUP=(
