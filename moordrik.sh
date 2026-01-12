@@ -17,6 +17,15 @@ if [ -z "$SUDO_USER" ]; then
     exit 1
  fi
 
+ function checkManifest() {
+
+	if (( ARCANE_VERSION != ARCANE_TALENT )); then
+		echo "You have insulted the wizard... Manifest Version $ARCANE_VERSION does not match Wizard of Version $ARCANE_TALENT. Halting."
+	    exit 1
+	fi
+ 
+ }
+
 
 #Starts Main
 case "$1" in
@@ -32,10 +41,7 @@ case "$1" in
 	
   	source $MANIFEST_LOCATION
 
-	if (( ARCANE_VERSION <= ARCANE_TALENT )); then
-		echo "You have insulted the wizard... Manifest Version $ARCANE_VERSION is too low for a Wizard of Version $ARCANE_TALENT skill. Halting."
-	    exit 1
-	fi
+	checkManifest
 
   	INSTALL_LOCATION="${2}${BASE_FILEPATH}"
     echo
@@ -172,11 +178,8 @@ case "$1" in
 	fi
 	
   	source $MANIFEST_LOCATION
-    
-   	if (( ARCANE_VERSION <= ARCANE_TALENT )); then
-		echo "You have insulted the wizard... Manifest Version $ARCANE_VERSION is too low for a Wizard of Version $ARCANE_TALENT skill. Halting."
-	    exit 1
-	fi
+
+	checkManifest
 	
     echo "uninstalling: $MODULE_NAME"
 
