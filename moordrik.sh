@@ -21,7 +21,7 @@ if [ -z "$SUDO_USER" ]; then
 
  function checkManifest() {
 
-	MANIFEST_LOCATION = ${1}
+	MANIFEST_LOCATION=${1}
    	
  	if [ ! -f "$MANIFEST_LOCATION" ]; then
 	    echo "Wizard Error: Manifest file '$MANIFEST_LOCATION' not found. Exiting."
