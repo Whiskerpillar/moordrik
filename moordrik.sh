@@ -245,6 +245,8 @@ case "$1" in
 	
 	"validate" )
 		echo "Wiz: Validateing Manifest"
+
+		MANIFEST_LOCATION="${2}"
 		checkManifest
 		echo
 		echo "Arcane Version: ${ARCANE_VERSION}"
