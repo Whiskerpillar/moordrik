@@ -34,10 +34,6 @@ if [ -z "$SUDO_USER" ]; then
 
 	echo "Wiz: Manifest ${MODULE_NAME} Loaded. Version: ${ARCANE_VERSION}"
 	
-  	INSTALL_LOCATION="${2}${BASE_FILEPATH}"
-	echo "debug: Install Location: ${INSTALL_LOCATION}"
-    echo
-
 }
 
 #Starts Main
@@ -48,6 +44,10 @@ case "$1" in
 	MANIFEST_LOCATION="${2}${3}"
 	checkManifest
     echo "Starting install of: $MODULE_NAME"
+
+	INSTALL_LOCATION="${2}${BASE_FILEPATH}"
+	echo "debug: Install Location: ${INSTALL_LOCATION}"
+    echo
 
 	echo "Number of Scripts: ${#EXECUTABLE_SCRIPTS[@]}"
 	
