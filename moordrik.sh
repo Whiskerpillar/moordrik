@@ -252,7 +252,7 @@ case "$1" in
 	"validate" )
 		echo "Wiz: Validateing Manifest"
 		
-		checkManifest ${1}
+		checkManifest ${2}
 		echo
 		echo "Arcane Version: ${ARCANE_VERSION}"
 		echo "Manifest Version: ${MANIFEST_VERSION}"
