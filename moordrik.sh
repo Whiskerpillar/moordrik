@@ -18,7 +18,10 @@ if [ -z "$SUDO_USER" ]; then
     exit 1
  fi
 
+
  function checkManifest() {
+
+	MANIFEST_LOCATION = ${1}
    	
  	if [ ! -f "$MANIFEST_LOCATION" ]; then
 	    echo "Wizard Error: Manifest file '$MANIFEST_LOCATION' not found. Exiting."
@@ -27,12 +30,12 @@ if [ -z "$SUDO_USER" ]; then
 	
   	source $MANIFEST_LOCATION
 
-	if (( ARCANE_VERSION != ARCANE_TALENT )); then
+	if (( $[ARCANE_VERSION] != ${ARCANE_TALENT} )); then
 		echo "Wizard Error: Manifest version: $ARCANE_VERSION does not match Wizard version: $ARCANE_TALENT. Halting."
 	    exit 1
 	fi
 
-	echo "Wiz: Manifest ${MODULE_NAME} Loaded. Version: ${ARCANE_VERSION}"
+	echo "Wiz: Manifest ${MODULE_NAME} Loaded."
 	
 }
 
@@ -40,8 +43,11 @@ if [ -z "$SUDO_USER" ]; then
 case "$1" in
 
   "install" )
+	#2 Repository Location
+	#3 Manifest Location
+  	checkManifest ${3}
   
-	MANIFEST_LOCATION="${2}${3}"
+	
 	checkManifest
     echo "Starting install of: $MODULE_NAME"
 
@@ -245,9 +251,8 @@ case "$1" in
 	
 	"validate" )
 		echo "Wiz: Validateing Manifest"
-
-		MANIFEST_LOCATION="${2}"
-		checkManifest
+		
+		checkManifest ${1}
 		echo
 		echo "Arcane Version: ${ARCANE_VERSION}"
 		echo "Manifest Version: ${MANIFEST_VERSION}"
@@ -262,15 +267,14 @@ case "$1" in
 			done
 		fi
 
-		echo
-		echo "--System Services: 	Found: ${#SYSTEMD_SERVICES[@]}"	 
+		echo "--System Services: 		Found: ${#SYSTEMD_SERVICES[@]}"	 
 		if [ ${#SYSTEMD_SERVICES[@]} -gt 0 ]; then
 			for service in "${SYSTEMD_SERVICES[@]}"; do
 		  		echo "	-${service}"
 			done
 		fi
 	
-		echo "--Files:				Found: ${#FILES_TO_MOVE[@]}"	
+		echo "--Files:			Found: ${#FILES_TO_MOVE[@]}"	
 		if [ ${#FILES_TO_MOVE[@]} -gt 0 ]; then
 
 			for source_path in "${!FILES_TO_MOVE[@]}"; do
@@ -345,11 +349,13 @@ case "$1" in
 
 
 	"help" )
-		echo "install <Base Repo Location> <Manifest File Location inside Base Repo>"
-		echo "install <Base Repo Location> <Manifest File Location inside Base Repo>"
-		echo "	Exsample: install ~/MyPackage /install/MyPackage.manifest"
+		echo "install <Base Repo Location> <Manifest File Location>"
+		echo "install <Base Repo Location> <Manifest File Location>"
+		echo "validate <Manifest File Location>"
 		echo "version"
 		echo "help"
+		echo
+		echo "--Exsamples: install ~/MyPackage ~/MyPackage/install/MyPackage.manifest"
 	;;
 
 
