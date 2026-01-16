@@ -27,7 +27,7 @@ if [ -z "$SUDO_USER" ]; then
 	
   	source $MANIFEST_LOCATION
 
-		if (( ARCANE_VERSION != ARCANE_TALENT )); then
+	if (( ARCANE_VERSION != ARCANE_TALENT )); then
 		echo "Wizard Error: Manifest version: $ARCANE_VERSION does not match Wizard version: $ARCANE_TALENT. Halting."
 	    exit 1
 	fi
@@ -35,6 +35,7 @@ if [ -z "$SUDO_USER" ]; then
 	echo "Wiz: Manifest ${MODULE_NAME} Loaded. Version: ${ARCANE_VERSION}"
 	
   	INSTALL_LOCATION="${2}${BASE_FILEPATH}"
+	echo "debug: Install Location: ${INSTALL_LOCATION}"
     echo
 
 }
@@ -49,6 +50,7 @@ case "$1" in
     echo "Starting install of: $MODULE_NAME"
 
 	echo "Number of Scripts: ${#EXECUTABLE_SCRIPTS[@]}"
+	
 	if [ ${#EXECUTABLE_SCRIPTS[@]} -gt 0 ]; then 
 		echo "--Installing Bash Scripts"
 		for script in "${EXECUTABLE_SCRIPTS[@]}"; do	    
