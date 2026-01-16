@@ -51,7 +51,7 @@ case "$1" in
 
 	echo "Number of Scripts: ${#EXECUTABLE_SCRIPTS[@]}"
 	
-	if [ ${#EXECUTABLE_SCRIPTS[@]} -gt 0 ]; then 
+	if [ ${#EXECUTABLE_SCRIPTS[@]} -gt 0 ]; then
 		echo "--Installing Bash Scripts"
 		for script in "${EXECUTABLE_SCRIPTS[@]}"; do	    
 			if cp -f "${INSTALL_LOCATION}/bash/$script" "/usr/local/bin/"; then
@@ -132,7 +132,7 @@ case "$1" in
 			# Check if the source is a file
 			elif [ -f "${working_source_path}" ]; then
 				ln -s "${working_source_path}" "${file_destination_path}"
-				echo "  -> File link created: ${working_source_path} -> ${working_source_path}"
+				echo "  -> File link created: ${working_source_path} -> ${file_destination_path}"
 				
 			else
 				echo "Warning: Source path '${working_source_path}' is neither a file nor a directory. Skipping."
@@ -240,6 +240,101 @@ case "$1" in
 	
 	exit 0 
 	;;
+
+
+	
+	"validate" )
+		echo "Wiz: Validateing Manifest"
+		checkManifest
+		echo
+		echo "Arcane Version: ${ARCANE_VERSION}"
+		echo "Manifest Version: ${MANIFEST_VERSION}"
+		echo "Module Name: ${MODULE_NAME}"
+		echo "Resource Filepath: ${BASE_FILEPATH}"
+		echo 
+		
+		echo "--Bash Scripts: 		Found: ${#EXECUTABLE_SCRIPTS[@]}"
+		if [ ${#EXECUTABLE_SCRIPTS[@]} -gt 0 ]; then 
+			for script in "${EXECUTABLE_SCRIPTS[@]}"; do	    
+			    echo "	-${script}"
+			done
+		fi
+
+		echo
+		echo "--System Services: 	Found: ${#SYSTEMD_SERVICES[@]}"	 
+		if [ ${#SYSTEMD_SERVICES[@]} -gt 0 ]; then
+			for service in "${SYSTEMD_SERVICES[@]}"; do
+		  		echo "	-${service}"
+			done
+		fi
+	
+		echo "--Files:				Found: ${#FILES_TO_MOVE[@]}"	
+		if [ ${#FILES_TO_MOVE[@]} -gt 0 ]; then
+
+			for source_path in "${!FILES_TO_MOVE[@]}"; do
+			    destination_path="${FILES_TO_MOVE[$source_path]}"
+			 	home_path="${INSTALL_LOCATION}${source_path}"
+						
+			    # Check if the source is a directory
+			    if [ -d "${home_path}" ]; then
+				 	echo "	dir-$home_path"
+			        
+			    # Check if the source is a file
+			    elif [ -f "${home_path}" ]; then
+				 	echo "	file-$home_path"
+					
+			    else
+			        echo "Warning: Source path '${home_path}' is neither a file nor a directory."
+				 	exit 1
+			    fi
+			done
+		fi
+	
+		echo "--Symbolic Links:		Found: ${#FILES_TO_LINK[@]}"
+		if [ ${#FILES_TO_LINK[@]} -gt 0 ]; then
+			for working_source_path in "${!FILES_TO_LINK[@]}"; do
+		
+				file_name=$(basename "$working_source_path")
+				destination_path="${FILES_TO_LINK[$working_source_path]}"
+				file_destination_path="${destination_path}${file_name}"
+		
+				# Check if the source is a directory
+				if [ -d "${working_source_path}" ]; then
+					echo "  -> Directory link: ${working_source_path} -> ${file_destination_path}"
+					
+				# Check if the source is a file
+				elif [ -f "${working_source_path}" ]; then
+					echo "  -> File link: ${working_source_path} -> ${working_source_path}"
+					
+				else
+					echo "Warning: Source path '${working_source_path}' is neither a file nor a directory. Skipping."
+					# This will exit the script with an error code.
+					exit 1
+				fi
+			done
+		fi
+
+	echo "--Cleaning: 			Found: ${#FILES_TO_CLEANUP[@]}"
+	if [ ${#FILES_TO_CLEANUP[@]} -gt 0 ]; then 
+		
+		for cleanfiles in "${FILES_TO_CLEANUP[@]}"; do	    
+			
+	  	    # Check if the source is a directory
+		    if [ -d "${cleanfiles}" ]; then
+			 	echo "	dir-$cleanfiles"
+		        
+		    # Check if the source is a file
+		    elif [ -f "${cleanfiles}" ]; then
+			 	echo "	file-$cleanfiles"
+	  		else
+			  echo "Error: Removing ${cleanfiles}."
+			fi
+		done
+	fi
+
+ 	echo "Wiz: End"
+	;;
+
 
 
 	"version" )
