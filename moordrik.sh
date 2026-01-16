@@ -43,7 +43,7 @@ case "$1" in
 
   "install" )
 
-	checkManifest
+	checkManifest ${2} ${3}
     echo "Starting install of: $MODULE_NAME"
 
 	if [ ${#EXECUTABLE_SCRIPTS[@]} -gt 0 ]; then 
