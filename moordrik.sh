@@ -32,6 +32,8 @@ if [ -z "$SUDO_USER" ]; then
 	    exit 1
 	fi
 
+	echo "Wiz: Manifest ${MODULE_NAME} Loaded. Version: ${ARCANE_VERSION}"
+	
   	INSTALL_LOCATION="${2}${BASE_FILEPATH}"
     echo
 
@@ -158,7 +160,7 @@ case "$1" in
 		done
 	fi
 
- 
+ 	echo "Wiz: Install Complete"
     exit 0
   ;;
 
