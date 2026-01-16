@@ -7,6 +7,7 @@
 
 #Version of the Wizard. To prevent old or mismatched manifests running. 
 ARCANE_TALENT=1
+
 #Collects the logged in users home file path. 
 ORIGINAL_USER_HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6)
 
@@ -18,8 +19,6 @@ if [ -z "$SUDO_USER" ]; then
  fi
 
  function checkManifest() {
-
-	MANIFEST_LOCATION="${2}${3}"
    	
  	if [ ! -f "$MANIFEST_LOCATION" ]; then
 	    echo "Wizard Error: Manifest file '$MANIFEST_LOCATION' not found. Exiting."
@@ -42,8 +41,9 @@ if [ -z "$SUDO_USER" ]; then
 case "$1" in
 
   "install" )
-
-	checkManifest ${2} ${3}
+  
+	MANIFEST_LOCATION="${2}${3}"
+	checkManifest
     echo "Starting install of: $MODULE_NAME"
 
 	if [ ${#EXECUTABLE_SCRIPTS[@]} -gt 0 ]; then 
@@ -166,9 +166,9 @@ case "$1" in
 
 
 	"uninstall" )
-	  
+	
+	  	MANIFEST_LOCATION="${2}${3}"
 		checkManifest
-		
 	    echo "uninstalling: $MODULE_NAME"
 	
 		echo "Removing Scripts"
