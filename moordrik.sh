@@ -48,6 +48,7 @@ case "$1" in
 	checkManifest
     echo "Starting install of: $MODULE_NAME"
 
+	echo "Number of Scripts: ${#EXECUTABLE_SCRIPTS[@]}"
 	if [ ${#EXECUTABLE_SCRIPTS[@]} -gt 0 ]; then 
 		echo "--Installing Bash Scripts"
 		for script in "${EXECUTABLE_SCRIPTS[@]}"; do	    
