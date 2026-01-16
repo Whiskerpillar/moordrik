@@ -19,35 +19,32 @@ if [ -z "$SUDO_USER" ]; then
 
  function checkManifest() {
 
-	if (( ARCANE_VERSION != ARCANE_TALENT )); then
-		echo "You have insulted the wizard... Manifest Version $ARCANE_VERSION does not match Wizard of Version $ARCANE_TALENT. Halting."
+	MANIFEST_LOCATION="${2}${3}"
+   	
+ 	if [ ! -f "$MANIFEST_LOCATION" ]; then
+	    echo "Wizard Error: Manifest file '$MANIFEST_LOCATION' not found. Exiting."
 	    exit 1
 	fi
- 
- }
+	
+  	source $MANIFEST_LOCATION
 
+		if (( ARCANE_VERSION != ARCANE_TALENT )); then
+		echo "Wizard Error: Manifest version: $ARCANE_VERSION does not match Wizard version: $ARCANE_TALENT. Halting."
+	    exit 1
+	fi
+
+  	INSTALL_LOCATION="${2}${BASE_FILEPATH}"
+    echo
+
+}
 
 #Starts Main
 case "$1" in
 
   "install" )
 
-   	MANIFEST_LOCATION="${2}/${3}"
-   	
- 	if [ ! -f "$MANIFEST_LOCATION" ]; then
-	    echo "Error: Manifest file '$MANIFEST_LOCATION' not found. Exiting."
-	    exit 1
-	fi
-	
-  	source $MANIFEST_LOCATION
-
 	checkManifest
-
-  	INSTALL_LOCATION="${2}${BASE_FILEPATH}"
-    echo
     echo "Starting install of: $MODULE_NAME"
-	#echo "DEBUG	Pathing '${INSTALL_LOCATION}' - '${BASE_FILEPATH}' "
-
 
 	if [ ${#EXECUTABLE_SCRIPTS[@]} -gt 0 ]; then 
 		echo "--Installing Bash Scripts"
@@ -168,89 +165,94 @@ case "$1" in
 
 
 
-"uninstall" )
-  
- 	MANIFEST_LOCATION="${2}/${3}"
-   	
- 	if [ ! -f "$MANIFEST_LOCATION" ]; then
-	    echo "Error: Uninstall: Manifest file '$MANIFEST_LOCATION' not found. Exiting."
-	    exit 1
-	fi
-	
-  	source $MANIFEST_LOCATION
-
-	checkManifest
-	
-    echo "uninstalling: $MODULE_NAME"
-
-	echo "Removing Scripts"
-	for script in "${EXECUTABLE_SCRIPTS[@]}"; do
-		if rm /usr/local/bin/${script}; then
-			echo "${script}' removed successfully."
-		else
-		 	echo "Error: Script ${script} could not be removed."
-		fi
-	done
-
-	echo "Removing Services"
-	for service in "${SYSTEMD_SERVICES[@]}"; do
-		if rm /etc/systemd/system/${service}; then
-  			echo "${service}" >> /dev/null
-		else
-		  echo "Error: Service $service could not be removed."
-		fi
-  		echo "	-${service} removed successfully."
-	done
-
-
-
-
-   
-		echo "Removing files"
-		for source_path in "${!FILES_TO_MOVE[@]}"; do
-
-	  		destination_path="${FILES_TO_MOVE[$source_path]}"
-			INSTALLED_FILE_PATH=${destination_path}/$(basename "${source_path}") 
-		    	
-		    echo "  -Processing: ${INSTALLED_FILE_PATH}"
+	"uninstall" )
+	  
+		checkManifest
 		
-		    # Check if the source is a directory
-		    if [ -d "${INSTALLED_FILE_PATH}" ]; then
-		 		rm ${INSTALLED_FILE_PATH} -r	        
-		    # Check if the source is a file
-		    elif [ -f "${INSTALLED_FILE_PATH}" ]; then
-				rm ${INSTALLED_FILE_PATH}
-		    else
-		        echo "Warning: Source path '${INSTALLED_FILE_PATH}' is neither a file nor a directory. Skipping."
-		    fi
-			done
-
-	   if [ ${#FILES_TO_CLEANUP[@]} -gt 0 ]; then 
-			echo "--Cleaning up"
-			for cleanfiles in "${FILES_TO_CLEANUP[@]}"; do	    
-				
-		  	    # Check if the source is a directory
-			    if [ -d "${cleanfiles}" ]; then
-			      	rm "${cleanfiles}" 
-				 	echo "	dir-$cleanfiles: successful"
-			        
+	    echo "uninstalling: $MODULE_NAME"
+	
+		echo "Removing Scripts"
+		for script in "${EXECUTABLE_SCRIPTS[@]}"; do
+			if rm /usr/local/bin/${script}; then
+				echo "${script}' removed successfully."
+			else
+			 	echo "Error: Script ${script} could not be removed."
+			fi
+		done
+	
+		echo "Removing Services"
+		for service in "${SYSTEMD_SERVICES[@]}"; do
+			if rm /etc/systemd/system/${service}; then
+	  			echo "${service}" >> /dev/null
+			else
+			  echo "Error: Service $service could not be removed."
+			fi
+	  		echo "	-${service} removed successfully."
+		done
+	
+	
+	
+	
+	   
+			echo "Removing files"
+			for source_path in "${!FILES_TO_MOVE[@]}"; do
+	
+		  		destination_path="${FILES_TO_MOVE[$source_path]}"
+				INSTALLED_FILE_PATH=${destination_path}/$(basename "${source_path}") 
+			    	
+			    echo "  -Processing: ${INSTALLED_FILE_PATH}"
+			
+			    # Check if the source is a directory
+			    if [ -d "${INSTALLED_FILE_PATH}" ]; then
+			 		rm ${INSTALLED_FILE_PATH} -r	        
 			    # Check if the source is a file
-			    elif [ -f "${cleanfiles}" ]; then
-					rm "${cleanfiles}" 
-				 	echo "	file-$cleanfiles: successful"
-		  		else
-				  echo "Error: Removing ${cleanfiles}."
-				fi
-			    echo "	-${cleanfiles} :successful."
-			done
-    fi
+			    elif [ -f "${INSTALLED_FILE_PATH}" ]; then
+					rm ${INSTALLED_FILE_PATH}
+			    else
+			        echo "Warning: Source path '${INSTALLED_FILE_PATH}' is neither a file nor a directory. Skipping."
+			    fi
+				done
+	
+		   if [ ${#FILES_TO_CLEANUP[@]} -gt 0 ]; then 
+				echo "--Cleaning up"
+				for cleanfiles in "${FILES_TO_CLEANUP[@]}"; do	    
+					
+			  	    # Check if the source is a directory
+				    if [ -d "${cleanfiles}" ]; then
+				      	rm "${cleanfiles}" 
+					 	echo "	dir-$cleanfiles: successful"
+				        
+				    # Check if the source is a file
+				    elif [ -f "${cleanfiles}" ]; then
+						rm "${cleanfiles}" 
+					 	echo "	file-$cleanfiles: successful"
+			  		else
+					  echo "Error: Removing ${cleanfiles}."
+					fi
+				    echo "	-${cleanfiles} :successful."
+				done
+	    fi
+	
+	exit 0 
+	;;
 
-exit 0 
-  ;;
+
+	"version" )
+		echo ${ARCANE_TALENT}
+	;;
 
 
-  *) 
-    echo "Invalid options: $1, $2. use option --help to see more options"
-  ;;
+	"help" )
+		echo "install <Base Repo Location> <Manifest File Location inside Base Repo>"
+		echo "install <Base Repo Location> <Manifest File Location inside Base Repo>"
+		echo "	Exsample: install ~/MyPackage /install/MyPackage.manifest"
+		echo "version"
+		echo "help"
+	;;
+
+
+	*) 
+	echo "Invalid options: $1, $2. use option help to see more options"
+	;;
 
 esac
