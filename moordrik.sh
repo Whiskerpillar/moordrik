@@ -19,25 +19,32 @@ if [ -z "$SUDO_USER" ]; then
  fi
 
 
- function checkManifest() {
+function checkManifest() {
+    # Ensure we actually got a path passed to the function
+    local manifest_path="$1"
+    
+    if [ -z "$manifest_path" ]; then
+        echo "Wizard Error: No manifest path provided to checkManifest."
+        exit 1
+    fi
+    
+    if [ ! -f "$manifest_path" ]; then
+        echo "Wizard Error: Manifest file '$manifest_path' not found."
+        exit 1
+    fi
+    
+    # Source the file to bring variables into global scope
+    source "$manifest_path"
 
-	MANIFEST_LOCATION=${1}
-   	
- 	if [ ! -f "$MANIFEST_LOCATION" ]; then
-	    echo "Wizard Error: Manifest file '$MANIFEST_LOCATION' not found. Exiting."
-	    exit 1
-	fi
-	
-  	source $MANIFEST_LOCATION
+    # Correct arithmetic comparison
+    if (( ARCANE_VERSION != ARCANE_TALENT )); then
+        echo "Wizard Error: Manifest version: $ARCANE_VERSION does not match Wizard: $ARCANE_TALENT."
+        exit 1
+    fi
 
-	if (( $[ARCANE_VERSION] != ${ARCANE_TALENT} )); then
-		echo "Wizard Error: Manifest version: $ARCANE_VERSION does not match Wizard version: $ARCANE_TALENT. Halting."
-	    exit 1
-	fi
-
-	echo "Wiz: Manifest ${MODULE_NAME} Loaded."
-	
+    echo "Wiz: Manifest ${MODULE_NAME} Loaded."
 }
+
 
 #Starts Main
 case "$1" in
@@ -46,10 +53,8 @@ case "$1" in
 	#2 Repository Location
 	#3 Manifest Location
   	checkManifest ${3}
-  
-	
-	checkManifest
-    echo "Starting install of: $MODULE_NAME"
+
+	echo "Starting install of: $MODULE_NAME"
 
 	INSTALL_LOCATION="${2}${BASE_FILEPATH}"
 	echo "debug: Install Location: ${INSTALL_LOCATION}"
