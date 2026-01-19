@@ -311,11 +311,11 @@ case "$1" in
 		
 				# Check if the source is a directory
 				if [ -d "${working_source_path}" ]; then
-					echo "  -> Directory link: ${working_source_path} -> ${file_destination_path}"
+					echo " 		-> Directory link: ${working_source_path} -> ${file_destination_path}"
 					
 				# Check if the source is a file
 				elif [ -f "${working_source_path}" ]; then
-					echo "  -> File link: ${working_source_path} -> ${working_source_path}"
+					echo "  	-> File link: ${working_source_path} -> ${working_source_path}"
 					
 				else
 					echo "Warning: Source path '${working_source_path}' is neither a file nor a directory. Skipping."
@@ -343,7 +343,7 @@ case "$1" in
 		done
 	fi
 
- 	echo "Wiz: End"
+ 	echo "-"
 	;;
 
 
