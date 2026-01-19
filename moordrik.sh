@@ -19,6 +19,7 @@ if [ -z "$SUDO_USER" ]; then
  fi
 
 
+
 function checkManifest() {
     # Ensure we actually got a path passed to the function
     local manifest_path="$1"
@@ -46,6 +47,58 @@ function checkManifest() {
 }
 
 
+
+function mod-Files(){
+	echo -n "--Bash Scripts: ${#EXECUTABLE_SCRIPTS[@]}.  "
+	
+	case "$1" in
+	
+	"install" )
+		if [ ${#EXECUTABLE_SCRIPTS[@]} -gt 0 ]; then
+			echo "-Installing-"
+			for script in "${EXECUTABLE_SCRIPTS[@]}"; do	    
+				if cp -f "${INSTALL_LOCATION}/bash/$script" "/usr/local/bin/"; then
+				  chmod +x /usr/local/bin/"$script"
+				else
+				  echo "Error: Service Scripts could not be moved."
+				  exit 1
+				fi
+			    echo "	-${script} :successful."
+			done
+		fi
+	  ;;
+
+	"uninstall" )
+	  	echo "-Removing-"
+		for script in "${EXECUTABLE_SCRIPTS[@]}"; do
+			if rm /usr/local/bin/${script}; then
+				echo "${script}' removed successfully."
+			else
+			 	echo "Error: Script ${script} could not be removed."
+			fi
+		done
+	;;
+	
+	  "validate" )
+		echo ""
+		if [ ${#EXECUTABLE_SCRIPTS[@]} -gt 0 ]; then 
+			for script in "${EXECUTABLE_SCRIPTS[@]}"; do	    
+				echo "	-${script}"
+			done
+		fi
+	  ;;
+
+}
+
+
+
+
+
+
+
+
+
+
 #Starts Main
 case "$1" in
 
@@ -59,21 +112,8 @@ case "$1" in
 	INSTALL_LOCATION="${2}${BASE_FILEPATH}"
 	echo "debug: Install Location: ${INSTALL_LOCATION}"
     echo
-
-	echo "Number of Scripts: ${#EXECUTABLE_SCRIPTS[@]}"
 	
-	if [ ${#EXECUTABLE_SCRIPTS[@]} -gt 0 ]; then
-		echo "--Installing Bash Scripts"
-		for script in "${EXECUTABLE_SCRIPTS[@]}"; do	    
-			if cp -f "${INSTALL_LOCATION}/bash/$script" "/usr/local/bin/"; then
-			  chmod +x /usr/local/bin/"$script"
-			else
-			  echo "Error: Service Scripts could not be moved."
-			  exit 1
-			fi
-		    echo "	-${script} :successful."
-		done
-	fi
+	mod-Files ${1}
 
  
 	if [ ${#SYSTEMD_SERVICES[@]} -gt 0 ]; then
@@ -187,15 +227,6 @@ case "$1" in
 		checkManifest
 	    echo "uninstalling: $MODULE_NAME"
 	
-		echo "Removing Scripts"
-		for script in "${EXECUTABLE_SCRIPTS[@]}"; do
-			if rm /usr/local/bin/${script}; then
-				echo "${script}' removed successfully."
-			else
-			 	echo "Error: Script ${script} could not be removed."
-			fi
-		done
-	
 		echo "Removing Services"
 		for service in "${SYSTEMD_SERVICES[@]}"; do
 			if rm /etc/systemd/system/${service}; then
@@ -265,12 +296,7 @@ case "$1" in
 		echo "Resource Filepath: ${BASE_FILEPATH}"
 		echo 
 		
-		echo "--Bash Scripts: 		Found: ${#EXECUTABLE_SCRIPTS[@]}"
-		if [ ${#EXECUTABLE_SCRIPTS[@]} -gt 0 ]; then 
-			for script in "${EXECUTABLE_SCRIPTS[@]}"; do	    
-			    echo "	-${script}"
-			done
-		fi
+
 
 		echo "--System Services: 		Found: ${#SYSTEMD_SERVICES[@]}"	 
 		if [ ${#SYSTEMD_SERVICES[@]} -gt 0 ]; then
