@@ -95,7 +95,7 @@ function modBash() {
 
 # ==============	Services	============== #
 function modServices() {
-	echo -n "--Bash Scripts:	Found: ${#SYSTEMD_SERVICES[@]}.	"
+	echo -n "--Services:	Found: ${#SYSTEMD_SERVICES[@]}.	"
 	
 	case "$1" in
 	
@@ -308,7 +308,7 @@ function modSymLink() {
 
 # ==============	Cleanup	 ============== #
 function modCleanup() {
-	echo -n "--Link Files:	Found: ${#FILES_TO_CLEANUP[@]}.	"
+	echo -n "--Clean Files:	Found: ${#FILES_TO_CLEANUP[@]}.	"
 	
 	case "$1" in
 	
@@ -485,7 +485,7 @@ case "$1" in
 		echo "Module Name: ${MODULE_NAME}"
 		echo "Resource Filepath: ${BASE_FILEPATH}"
 		echo 
-		modFiles ${1}
+		modBash ${1}
 		modServices ${1}
 		modMoveFiles ${1}
 		modSymLink ${1}
