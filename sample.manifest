@@ -1,6 +1,7 @@
 # File: application.manifest
 # This file contains the list of files to be installed.
 
+
 ARCANE_VERSION=1
 MANIFEST_VERSION=1
 MODULE_NAME="sample"
@@ -19,14 +20,14 @@ BASE_FILEPATH=/sample
     )
 
 #List of files. Installs from Wizards home location for source path. Key is source, value desitnation. 
-  #Base Filepath/<Specifc File path>
+  #[<Specifc File path>] <Destination File Path> 
     declare -A -g FILES_TO_MOVE
-      FILES_TO_MOVE[<Specifc File path>]="<Desination path>" 
+      FILES_TO_MOVE[~/moordrik]="~/moordrik" 
 
 #List of Files to Link -symbolic-. Uses hard path for source and desination.
-  #<Specifc File path>
+  #[<Specifc File path>] <Destination File Path> 
     declare -A -g FILES_TO_LINK
-      FILES_TO_LINK[SourcePath]="DestinationPath"
+      FILES_TO_LINK[~/moordrik]="~/moordrik" 
 
 
 #Files to mark as executable.
