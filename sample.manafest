@@ -8,41 +8,41 @@ BASE_FILEPATH=/sample
 
 # List of executable scripts to be installed.
   #(Base Filepath/bash)
-    declare -a EXECUTABLE_SCRIPTS=(
-      #"sample.sh"
+    declare -a -g EXECUTABLE_SCRIPTS=(
+      "sample.sh"
     )
 
 # List of systemd services to be installed.
   #(Base Filepath/services)
-    declare -a SYSTEMD_SERVICES=(
-      #"onet_discovery.service"
+    declare -a -g SYSTEMD_SERVICES=(
+      "onet_discovery.service"
     )
 
 #List of files. Installs from Wizards home location for source path. Key is source, value desitnation. 
   #Base Filepath/<Specifc File path>
-    declare -A FILES_TO_MOVE
-      #FILES_TO_MOVE[<Specifc File path>]="<Desination path>" 
+    declare -A -g FILES_TO_MOVE
+      FILES_TO_MOVE[<Specifc File path>]="<Desination path>" 
 
 #List of Files to Link -symbolic-. Uses hard path for source and desination.
   #<Specifc File path>
-    declare -A FILES_TO_LINK
-      #FILES_TO_LINK[SourcePath]="DestinationPath"
+    declare -A -g FILES_TO_LINK
+      FILES_TO_LINK[SourcePath]="DestinationPath"
 
 
 #Files to mark as executable.
   #Full system file path
-    declare -a FILES_TO_EXECUT=(
-      #"/usr/default.sh"
+    declare -a -g FILES_TO_EXECUT=(
+      "/usr/default.sh"
     )
 
 #Files to cleanup on the system.
   #Full system file path
-    declare -a FILES_TO_CLEANUP=(
-      #"/etc/nginx/sites-enabled/default"
+    declare -a -g FILES_TO_CLEANUP=(
+      "/etc/nginx/sites-enabled/default"
     )
 
 #Create Directories. Uses a full system file path. 
   #Full system file path
-    declare -a DIRS_TO_CREATE=(
-      #"onet_discovery.service"
+    declare -a -g DIRS_TO_CREATE=(
+      "onet_discovery.service"
     )
