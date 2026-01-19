@@ -463,8 +463,10 @@ case "$1" in
 	
 	"validate" )
 		echo "Wiz: Validateing Manifest"
+		INSTALL_LOCATION="${2}${BASE_FILEPATH}"
 		
-		checkManifest ${2}
+		
+		checkManifest ${3}
 		
 		echo
 		echo "Arcane Version: ${ARCANE_VERSION}"
