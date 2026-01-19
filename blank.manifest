@@ -1,5 +1,5 @@
-# File: application.manifest
-# This file contains the list of files to be installed.
+# Moordrik the Wizard Manifest File
+# To use local users home use ${ORIGINAL_USER_HOME}
 
 ARCANE_VERSION=1
 MANIFEST_VERSION=1
@@ -19,14 +19,13 @@ BASE_FILEPATH=/sample
     )
 
 #List of files. Installs from Wizards home location for source path. Key is source, value desitnation. 
-  #Base Filepath/<Specifc File path>
+  #[<Specifc File path>] <Destination File Path> 
     declare -A -g FILES_TO_MOVE
 
 
 #List of Files to Link -symbolic-. Uses hard path for source and desination.
-  #<Specifc File path>
+  #[<Specifc File path>] <Destination File Path> 
     declare -A -g FILES_TO_LINK
-
 
 
 #Files to mark as executable.
