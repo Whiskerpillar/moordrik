@@ -123,9 +123,9 @@ function modServices() {
 		;;
 		
 		"vaidate" )
-		
+			echo "Debug Service PI"
 			if [ ${#SYSTEMD_SERVICES[@]} -gt 0 ]; then
-			echo "Debug Service"
+			echo "Debug Service PO"
 				for service in "${SYSTEMD_SERVICES[@]}"; do
 			  		echo "	-${service}"
 				done
