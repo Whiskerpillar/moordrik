@@ -48,8 +48,9 @@ function checkManifest() {
 
 
 
-function modFiles() {
-	echo -n "--Bash Scripts: ${#EXECUTABLE_SCRIPTS[@]}.  "
+# ==============	Bash	 ============== #
+function modBash() {
+	echo -n "--Bash Scripts:	Found: ${#EXECUTABLE_SCRIPTS[@]}.	"
 	
 	case "$1" in
 	
@@ -92,243 +93,191 @@ function modFiles() {
 
 
 
-
-
-
-
-
-
-
-#Starts Main
-case "$1" in
-
-  "install" )
-	#2 Repository Location
-	#3 Manifest Location
-  	checkManifest ${3}
-
-	echo "Starting install of: $MODULE_NAME"
-
-	INSTALL_LOCATION="${2}${BASE_FILEPATH}"
-	echo "debug: Install Location: ${INSTALL_LOCATION}"
-    echo
+# ==============	Services	============== #
+function modServices() {
+	echo -n "--Bash Scripts:	Found: ${#SYSTEMD_SERVICES[@]}.	"
 	
-	mod-Files ${1}
-
- 
-	if [ ${#SYSTEMD_SERVICES[@]} -gt 0 ]; then
-		echo "--Installing services"
-		for service in "${SYSTEMD_SERVICES[@]}"; do
-			if cp -f "${INSTALL_LOCATION}/services/${service}" "/etc/systemd/system/"; then
-	  			echo "${service}" >> /dev/null
-			else
-			  echo "Error: Service $service could not be moved."
-			  exit 1
-			fi
-	  		echo "	-${service} :successful."
-		done
-	fi
-
-
-	if [ ${#FILES_TO_MOVE[@]} -gt 0 ]; then
-		echo "--Installing files"
-		for source_path in "${!FILES_TO_MOVE[@]}"; do
-		    destination_path="${FILES_TO_MOVE[$source_path]}"
-		 	home_path="${INSTALL_LOCATION}${source_path}"
-			
-		    # Ensure the destination directory exists
-		    mkdir -p "$destination_path"
-		
-		    # Check if the source is a directory
-		    if [ -d "${home_path}" ]; then
-		        # Use `cp -r` to copy the directory and its contents recursively
-		        cp -r "${home_path}" "$destination_path"
-			 	echo "	dir-$home_path: successful"
-		        
-		    # Check if the source is a file
-		    elif [ -f "${home_path}" ]; then
-		        # Use `cp` to copy the single file
-		        cp "${home_path}" "$destination_path"
-			 	echo "	file-$home_path: successful"
-				
-		    else
-		        echo "Warning: Source path '${home_path}' is neither a file nor a directory. Skipping."
-			 	exit 1
-		    fi
-		done
-	fi
-
-
-	if [ ${#FILES_TO_LINK[@]} -gt 0 ]; then
-		echo "--Creating Symbolic Links"
-		for working_source_path in "${!FILES_TO_LINK[@]}"; do
+	case "$1" in
 	
-			file_name=$(basename "$working_source_path")
-			destination_path="${FILES_TO_LINK[$working_source_path]}"
-			file_destination_path="${destination_path}${file_name}"
-			
-			mkdir -p "$destination_path"
-	
-			# --- Check for idempotence: remove old links first ---
-			if [ -L "$file_destination_path" ] || [ -f "$file_destination_path" ] || [ -d "$file_destination_path" ]; then
-				echo "  -> Removing existing file/link at: ${file_destination_path}"
-				rm -rf "$file_destination_path"
-			fi
-	
-			# Check if the source is a directory
-			if [ -d "${working_source_path}" ]; then
-				ln -s "${working_source_path}" "${file_destination_path}"
-				echo "  -> Directory link created: ${working_source_path} -> ${file_destination_path}"
-				
-			# Check if the source is a file
-			elif [ -f "${working_source_path}" ]; then
-				ln -s "${working_source_path}" "${file_destination_path}"
-				echo "  -> File link created: ${working_source_path} -> ${file_destination_path}"
-				
-			else
-				echo "Warning: Source path '${working_source_path}' is neither a file nor a directory. Skipping."
-				# This will exit the script with an error code.
-				exit 1
-			fi
-		done
-	fi
-
-
-	if [ ${#FILES_TO_CLEANUP[@]} -gt 0 ]; then 
-		echo "--Cleaning up"
-		for cleanfiles in "${FILES_TO_CLEANUP[@]}"; do	    
-			
-	  	    # Check if the source is a directory
-		    if [ -d "${cleanfiles}" ]; then
-		      	rm "${cleanfiles}" -rf
-			 	echo "	dir-$cleanfiles: successful"
-		        
-		    # Check if the source is a file
-		    elif [ -f "${cleanfiles}" ]; then
-				rm "${cleanfiles}" 
-			 	echo "	file-$cleanfiles: successful"
-	  		else
-			  echo "Error: Removing ${cleanfiles}."
-			fi
-		    echo "	-${cleanfiles} :successful."
-		done
-	fi
-
- 	echo "Wiz: Install Complete"
-    exit 0
-  ;;
-
-
-
-
-	"uninstall" )
-	
-	  	MANIFEST_LOCATION="${2}${3}"
-		checkManifest
-	    echo "uninstalling: $MODULE_NAME"
-	
-		echo "Removing Services"
-		for service in "${SYSTEMD_SERVICES[@]}"; do
-			if rm /etc/systemd/system/${service}; then
-	  			echo "${service}" >> /dev/null
-			else
-			  echo "Error: Service $service could not be removed."
-			fi
-	  		echo "	-${service} removed successfully."
-		done
-	
-	
-	
-	
-	   
-			echo "Removing files"
-			for source_path in "${!FILES_TO_MOVE[@]}"; do
-	
-		  		destination_path="${FILES_TO_MOVE[$source_path]}"
-				INSTALLED_FILE_PATH=${destination_path}/$(basename "${source_path}") 
-			    	
-			    echo "  -Processing: ${INSTALLED_FILE_PATH}"
-			
-			    # Check if the source is a directory
-			    if [ -d "${INSTALLED_FILE_PATH}" ]; then
-			 		rm ${INSTALLED_FILE_PATH} -r	        
-			    # Check if the source is a file
-			    elif [ -f "${INSTALLED_FILE_PATH}" ]; then
-					rm ${INSTALLED_FILE_PATH}
-			    else
-			        echo "Warning: Source path '${INSTALLED_FILE_PATH}' is neither a file nor a directory. Skipping."
-			    fi
+		"install" )
+			if [ ${#SYSTEMD_SERVICES[@]} -gt 0 ]; then
+				echo "-Installing-"
+				for service in "${SYSTEMD_SERVICES[@]}"; do
+					if cp -f "${INSTALL_LOCATION}/services/${service}" "/etc/systemd/system/"; then
+						echo "${service}" >> /dev/null
+					else
+					  echo "Error: Service $service could not be moved."
+					  exit 1
+					fi
+					echo "	-${service} :successful."
 				done
+			fi
+		  ;;
 	
-		   if [ ${#FILES_TO_CLEANUP[@]} -gt 0 ]; then 
-				echo "--Cleaning up"
-				for cleanfiles in "${FILES_TO_CLEANUP[@]}"; do	    
+		"uninstall" )
+			echo "-Removing-"
+			for service in "${SYSTEMD_SERVICES[@]}"; do
+				if rm /etc/systemd/system/${service}; then
+		  			echo "${service}" >> /dev/null
+				else
+				  echo "Error: Service $service could not be removed."
+				fi
+		  		echo "	-${service} removed successfully."
+			done
+		;;
+		
+		"vaidate" )
+			if [ ${#SYSTEMD_SERVICES[@]} -gt 0 ]; then
+				for service in "${SYSTEMD_SERVICES[@]}"; do
+			  		echo "	-${service}"
+				done
+			fi
+		;;
+
+	esac
+}
+
+
+
+
+# ==============	MoveFiles	============== #
+function modMoveFiles() {
+	echo -n "--Move Files:	Found: ${#FILES_TO_MOVE[@]}.	"
+	
+	case "$1" in
+	
+		"install" )
+			if [ ${#FILES_TO_MOVE[@]} -gt 0 ]; then
+				echo "-Installing-"
+				for source_path in "${!FILES_TO_MOVE[@]}"; do
+				    destination_path="${FILES_TO_MOVE[$source_path]}"
+				 	home_path="${INSTALL_LOCATION}${source_path}"
 					
-			  	    # Check if the source is a directory
-				    if [ -d "${cleanfiles}" ]; then
-				      	rm "${cleanfiles}" 
-					 	echo "	dir-$cleanfiles: successful"
+				    # Ensure the destination directory exists
+				    mkdir -p "$destination_path"
+				
+				    # Check if the source is a directory
+				    if [ -d "${home_path}" ]; then
+				        # Use `cp -r` to copy the directory and its contents recursively
+				        cp -r "${home_path}" "$destination_path"
+					 	echo "	dir-$home_path: successful"
 				        
 				    # Check if the source is a file
-				    elif [ -f "${cleanfiles}" ]; then
-						rm "${cleanfiles}" 
-					 	echo "	file-$cleanfiles: successful"
-			  		else
-					  echo "Error: Removing ${cleanfiles}."
-					fi
-				    echo "	-${cleanfiles} :successful."
+				    elif [ -f "${home_path}" ]; then
+				        # Use `cp` to copy the single file
+				        cp "${home_path}" "$destination_path"
+					 	echo "	file-$home_path: successful"
+						
+				    else
+				        echo "Warning: Source path '${home_path}' is neither a file nor a directory. Skipping."
+					 	exit 1
+				    fi
 				done
-	    fi
+			fi
+		;;
 	
-	exit 0 
+		"uninstall" )
+			echo "-Removing-"
+			for source_path in "${!FILES_TO_MOVE[@]}"; do
+		
+				destination_path="${FILES_TO_MOVE[$source_path]}"
+				INSTALLED_FILE_PATH=${destination_path}/$(basename "${source_path}") 
+					
+				echo "  -Processing: ${INSTALLED_FILE_PATH}"
+			
+				# Check if the source is a directory
+				if [ -d "${INSTALLED_FILE_PATH}" ]; then
+					rm ${INSTALLED_FILE_PATH} -r	        
+				# Check if the source is a file
+				elif [ -f "${INSTALLED_FILE_PATH}" ]; then
+					rm ${INSTALLED_FILE_PATH}
+				else
+					echo "Warning: Source path '${INSTALLED_FILE_PATH}' is neither a file nor a directory. Skipping."
+				fi
+				done
+
+			  
+		;;
+		
+		"vaidate" )
+			echo ""
+			if [ ${#FILES_TO_MOVE[@]} -gt 0 ]; then
+	
+				for source_path in "${!FILES_TO_MOVE[@]}"; do
+				    destination_path="${FILES_TO_MOVE[$source_path]}"
+				 	home_path="${INSTALL_LOCATION}${source_path}"
+							
+				    # Check if the source is a directory
+				    if [ -d "${home_path}" ]; then
+					 	echo "	dir-$home_path"
+				        
+				    # Check if the source is a file
+				    elif [ -f "${home_path}" ]; then
+					 	echo "	file-$home_path"
+						
+				    else
+				        echo "Warning: Source path '${home_path}' is neither a file nor a directory."
+					 	exit 1
+				    fi
+				done
+			fi
+		;;
+
+	esac
+}
+
+
+
+# ==============	Link	 ============== #
+function modSymLink() {
+	echo -n "--Link Files:	Found: ${#FILES_TO_LINK[@]}.	"
+	
+	case "$1" in
+	
+	"install" )
+		echo "-Installing-"
+		if [ ${#FILES_TO_LINK[@]} -gt 0 ]; then
+			echo "--Creating Symbolic Links"
+			for working_source_path in "${!FILES_TO_LINK[@]}"; do
+		
+				file_name=$(basename "$working_source_path")
+				destination_path="${FILES_TO_LINK[$working_source_path]}"
+				file_destination_path="${destination_path}${file_name}"
+				
+				mkdir -p "$destination_path"
+		
+				# --- Check for idempotence: remove old links first ---
+				if [ -L "$file_destination_path" ] || [ -f "$file_destination_path" ] || [ -d "$file_destination_path" ]; then
+					echo "  -> Removing existing file/link at: ${file_destination_path}"
+					rm -rf "$file_destination_path"
+				fi
+		
+				# Check if the source is a directory
+				if [ -d "${working_source_path}" ]; then
+					ln -s "${working_source_path}" "${file_destination_path}"
+					echo "  -> Directory link created: ${working_source_path} -> ${file_destination_path}"
+					
+				# Check if the source is a file
+				elif [ -f "${working_source_path}" ]; then
+					ln -s "${working_source_path}" "${file_destination_path}"
+					echo "  -> File link created: ${working_source_path} -> ${file_destination_path}"
+					
+				else
+					echo "Warning: Source path '${working_source_path}' is neither a file nor a directory. Skipping."
+					# This will exit the script with an error code.
+					exit 1
+				fi
+			done
+		fi
 	;;
 
-
+	"uninstall" )
+	  	echo "-Removing-"
+		echo "Warning: Removing linked files not supported by wizard at this version"
+	;;
 	
 	"validate" )
-		echo "Wiz: Validateing Manifest"
-		
-		checkManifest ${2}
-		
-		echo
-		echo "Arcane Version: ${ARCANE_VERSION}"
-		echo "Manifest Version: ${MANIFEST_VERSION}"
-		echo "Module Name: ${MODULE_NAME}"
-		echo "Resource Filepath: ${BASE_FILEPATH}"
-		echo 
-		
-modFiles ${1}
-
-		echo "--System Services: 		Found: ${#SYSTEMD_SERVICES[@]}"	 
-		if [ ${#SYSTEMD_SERVICES[@]} -gt 0 ]; then
-			for service in "${SYSTEMD_SERVICES[@]}"; do
-		  		echo "	-${service}"
-			done
-		fi
-	
-		echo "--Files:			Found: ${#FILES_TO_MOVE[@]}"	
-		if [ ${#FILES_TO_MOVE[@]} -gt 0 ]; then
-
-			for source_path in "${!FILES_TO_MOVE[@]}"; do
-			    destination_path="${FILES_TO_MOVE[$source_path]}"
-			 	home_path="${INSTALL_LOCATION}${source_path}"
-						
-			    # Check if the source is a directory
-			    if [ -d "${home_path}" ]; then
-				 	echo "	dir-$home_path"
-			        
-			    # Check if the source is a file
-			    elif [ -f "${home_path}" ]; then
-				 	echo "	file-$home_path"
-					
-			    else
-			        echo "Warning: Source path '${home_path}' is neither a file nor a directory."
-				 	exit 1
-			    fi
-			done
-		fi
-	
-		echo "--Symbolic Links:		Found: ${#FILES_TO_LINK[@]}"
+		echo ""
 		if [ ${#FILES_TO_LINK[@]} -gt 0 ]; then
 			for working_source_path in "${!FILES_TO_LINK[@]}"; do
 		
@@ -351,24 +300,169 @@ modFiles ${1}
 				fi
 			done
 		fi
+	;;
+	esac
+}
 
-	echo "--Cleaning: 			Found: ${#FILES_TO_CLEANUP[@]}"
-	if [ ${#FILES_TO_CLEANUP[@]} -gt 0 ]; then 
+
+
+# ==============	Cleanup	 ============== #
+function modCleanup() {
+	echo -n "--Link Files:	Found: ${#FILES_TO_CLEANUP[@]}.	"
+	
+	case "$1" in
+	
+	"install" )
+		echo "-Installing-"
+		if [ ${#FILES_TO_CLEANUP[@]} -gt 0 ]; then 
+		echo "--Cleaning up"
+			for cleanfiles in "${FILES_TO_CLEANUP[@]}"; do	    
+				
+		  	    # Check if the source is a directory
+			    if [ -d "${cleanfiles}" ]; then
+			      	rm "${cleanfiles}" -rf
+				 	echo "	dir-$cleanfiles: successful"
+			        
+			    # Check if the source is a file
+			    elif [ -f "${cleanfiles}" ]; then
+					rm "${cleanfiles}" 
+				 	echo "	file-$cleanfiles: successful"
+		  		else
+				  echo "Error: Removing ${cleanfiles}."
+				fi
+				
+			    echo "	-${cleanfiles} :successful."
+			done
+		fi
+	;;
+
+	"uninstall" )
+	  	echo "-Removing-"
+		if [ ${#FILES_TO_CLEANUP[@]} -gt 0 ]; then 
+			echo "--Cleaning up"
+			for cleanfiles in "${FILES_TO_CLEANUP[@]}"; do	    
+				
+				# Check if the source is a directory
+				if [ -d "${cleanfiles}" ]; then
+					rm "${cleanfiles}" 
+					echo "	dir-$cleanfiles: successful"
+					
+				# Check if the source is a file
+				elif [ -f "${cleanfiles}" ]; then
+					rm "${cleanfiles}" 
+					echo "	file-$cleanfiles: successful"
+				else
+				  echo "Error: Removing ${cleanfiles}."
+				fi
+				
+			echo "	-${cleanfiles} :successful."
+			done
+		fi
+		exit 0 
+	;;
+	
+	"validate" )
+		echo ""
+		if [ ${#FILES_TO_CLEANUP[@]} -gt 0 ]; then 
 		
-		for cleanfiles in "${FILES_TO_CLEANUP[@]}"; do	    
-			
-	  	    # Check if the source is a directory
-		    if [ -d "${cleanfiles}" ]; then
-			 	echo "	dir-$cleanfiles"
-		        
-		    # Check if the source is a file
-		    elif [ -f "${cleanfiles}" ]; then
-			 	echo "	file-$cleanfiles"
-	  		else
-			  echo "Error: Removing ${cleanfiles}."
-			fi
-		done
-	fi
+			for cleanfiles in "${FILES_TO_CLEANUP[@]}"; do	    
+				
+		  	    # Check if the source is a directory
+			    if [ -d "${cleanfiles}" ]; then
+				 	echo "	dir-$cleanfiles"
+			        
+			    # Check if the source is a file
+			    elif [ -f "${cleanfiles}" ]; then
+				 	echo "	file-$cleanfiles"
+		  		else
+				  echo "Error: Removing ${cleanfiles}."
+				fi
+			done
+		fi
+	;;
+	
+esac
+}
+
+
+
+
+
+# ==============	Executable	 ============== #
+function modExecutable() {
+	echo -n "--Executable:	Found: .	"
+	
+	case "$1" in
+	
+	"install" )
+		echo "-Installing-"
+				echo "Not Supported in this version"
+		
+	;;
+
+	"uninstall" )
+	  	echo "-Removing-"
+				echo "Not Supported in this version"
+	;;
+	
+	"validate" )
+		echo ""
+				echo "Not Supported in this version"
+	;;
+	
+esac
+}
+
+
+
+#Starts Main
+case "$1" in
+
+  "install" )
+	#2 Repository Location
+	#3 Manifest Location
+  	checkManifest ${3}
+
+	echo "Starting install of: $MODULE_NAME"
+
+	INSTALL_LOCATION="${2}${BASE_FILEPATH}"
+	echo "debug: Install Location: ${INSTALL_LOCATION}"
+    echo
+ 	echo "Wiz: Install Complete"
+    exit 0
+  ;;
+
+
+
+
+	"uninstall" )
+		
+	  	MANIFEST_LOCATION="${2}${3}"
+		checkManifest
+	    echo "uninstalling: $MODULE_NAME"
+	
+	;;
+
+
+	
+	"validate" )
+		echo "Wiz: Validateing Manifest"
+		
+		checkManifest ${2}
+		
+		echo
+		echo "Arcane Version: ${ARCANE_VERSION}"
+		echo "Manifest Version: ${MANIFEST_VERSION}"
+		echo "Module Name: ${MODULE_NAME}"
+		echo "Resource Filepath: ${BASE_FILEPATH}"
+		echo 
+		
+		modFiles ${1}
+		modServices ${1}
+		modMoveFiles ${1}
+
+	
+	
 
  	echo "-"
 	;;
