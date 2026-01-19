@@ -81,7 +81,7 @@ function modBash() {
 	;;
 	
 	  "validate" )
-		echo ""
+		echo "-Validate-"
 		if [ ${#EXECUTABLE_SCRIPTS[@]} -gt 0 ]; then 
 			for script in "${EXECUTABLE_SCRIPTS[@]}"; do	    
 				echo "	-${script}"
@@ -127,7 +127,7 @@ function modServices() {
 		;;
 		
 		"vaidate" )
-			echo ""
+			echo "-Validate-"
 			if [ ${#SYSTEMD_SERVICES[@]} -gt 0 ]; then
 				for service in "${SYSTEMD_SERVICES[@]}"; do
 			  		echo "	-${service}"
@@ -201,7 +201,7 @@ function modMoveFiles() {
 		;;
 		
 		"vaidate" )
-			echo " "
+			echo "-Validate-"
 			if [ ${#FILES_TO_MOVE[@]} -gt 0 ]; then
 	
 				for source_path in "${!FILES_TO_MOVE[@]}"; do
@@ -278,7 +278,7 @@ function modSymLink() {
 	;;
 	
 	"validate" )
-		echo " "
+		echo "-Validate-"
 		if [ ${#FILES_TO_LINK[@]} -gt 0 ]; then
 			for working_source_path in "${!FILES_TO_LINK[@]}"; do
 		
@@ -363,7 +363,7 @@ function modCleanup() {
 	;;
 	
 	"validate" )
-		echo ""
+		echo "-Validate-"
 		if [ ${#FILES_TO_CLEANUP[@]} -gt 0 ]; then 
 		
 			for cleanfiles in "${FILES_TO_CLEANUP[@]}"; do	    
