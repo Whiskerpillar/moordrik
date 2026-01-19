@@ -289,6 +289,7 @@ case "$1" in
 		echo "Wiz: Validateing Manifest"
 		
 		checkManifest ${2}
+		
 		echo
 		echo "Arcane Version: ${ARCANE_VERSION}"
 		echo "Manifest Version: ${MANIFEST_VERSION}"
@@ -296,7 +297,7 @@ case "$1" in
 		echo "Resource Filepath: ${BASE_FILEPATH}"
 		echo 
 		
-
+mod-Files ${1}
 
 		echo "--System Services: 		Found: ${#SYSTEMD_SERVICES[@]}"	 
 		if [ ${#SYSTEMD_SERVICES[@]} -gt 0 ]; then
