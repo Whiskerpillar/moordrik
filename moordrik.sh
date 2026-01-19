@@ -50,7 +50,7 @@ function checkManifest() {
 
 # ==============	Bash	 ============== #
 function modBash() {
-	echo "--Bash Scripts	-${1}-		Found: ${#EXECUTABLE_SCRIPTS[@]}."
+	echo "--Bash Scripts	${1}	Found: ${#EXECUTABLE_SCRIPTS[@]}."
 	
 	case "$1" in
 	
@@ -92,7 +92,7 @@ function modBash() {
 
 # ==============	Services	============== #
 function modServices() {
-	echo "--Services	-${1}-		Found: ${#SYSTEMD_SERVICES[@]}.	"
+	echo "--Services	${1}	Found: ${#SYSTEMD_SERVICES[@]}.	"
 	
 	case "$1" in
 	
@@ -140,7 +140,7 @@ function modServices() {
 
 # ==============	MoveFiles	============== #
 function modMoveFiles() {
-	echo "--Move Files		-${1}-		Found: ${#FILES_TO_MOVE[@]}.	"
+	echo "--Move Files	${1}	Found: ${#FILES_TO_MOVE[@]}.	"
 	
 	case "$1" in
 	
@@ -227,7 +227,7 @@ function modMoveFiles() {
 
 # ==============	Link	 ============== #
 function modSymLink() {
-	echo "--Link Files:${1}		Found: ${#FILES_TO_LINK[@]}.	"
+	echo "--Link Files:	${1}	Found: ${#FILES_TO_LINK[@]}.	"
 	
 	case "$1" in
 	
@@ -305,7 +305,7 @@ function modSymLink() {
 
 # ==============	Cleanup	 ============== #
 function modCleanup() {
-	echo "--Clean Files:${1}		Found: ${#FILES_TO_CLEANUP[@]}.	"
+	echo "--Clean Files:	${1}	Found: ${#FILES_TO_CLEANUP[@]}.	"
 	
 	case "$1" in
 	
@@ -387,7 +387,7 @@ esac
 
 # ==============	Executable	 ============== #
 function modExecutable() {
-	echo "--Executable:${1}		Found: .	"
+	echo "--Executable:	${1}	Found: .	"
 	
 	case "$1" in
 	
@@ -415,7 +415,7 @@ esac
 
 # ==============	Create Dir	 ============== #
 function modMakeDir() {
-	echo "--Create Dir:${1}		Found: .	"
+	echo "--Create Dir:	${1}	Found: .	"
 	
 	case "$1" in
 	
@@ -439,7 +439,7 @@ esac
 }
 
 
-
+#--== MAIN ==--#
 #Starts Main
 case "$1" in
 
