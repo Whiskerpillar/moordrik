@@ -48,7 +48,7 @@ function checkManifest() {
 
 
 
-function mod-Files() {
+function mod_Files() {
 	echo -n "--Bash Scripts: ${#EXECUTABLE_SCRIPTS[@]}.  "
 	
 	case "$1" in
@@ -87,7 +87,7 @@ function mod-Files() {
 			done
 		fi
 	  ;;
-
+	esac
 }
 
 
