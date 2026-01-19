@@ -415,6 +415,34 @@ esac
 
 
 
+
+# ==============	Create Dir	 ============== #
+function modMakeDir() {
+	echo -n "--Create Dir:	Found: .	"
+	
+	case "$1" in
+	
+	"install" )
+		echo "-Installing-"
+				echo "Not Supported in this version"
+		
+	;;
+
+	"uninstall" )
+	  	echo "-Removing-"
+				echo "Not Supported in this version"
+	;;
+	
+	"validate" )
+		echo ""
+				echo "Not Supported in this version"
+	;;
+	
+esac
+}
+
+
+
 #Starts Main
 case "$1" in
 
@@ -436,11 +464,12 @@ case "$1" in
 
 
 	"uninstall" )
+		echo "Wiz: Uninstalling Manifest"
 		
-	  	MANIFEST_LOCATION="${2}${3}"
-		checkManifest
+		checkManifest ${2}
+		
 	    echo "uninstalling: $MODULE_NAME"
-	
+		exit 0
 	;;
 
 
@@ -456,15 +485,14 @@ case "$1" in
 		echo "Module Name: ${MODULE_NAME}"
 		echo "Resource Filepath: ${BASE_FILEPATH}"
 		echo 
-		
 		modFiles ${1}
 		modServices ${1}
 		modMoveFiles ${1}
-
-	
-	
-
- 	echo "-"
+		modSymLink ${1}
+		modCleanup ${1}
+		modExecutable ${1}
+		modMakeDir ${1}
+	 	exit 0
 	;;
 
 
