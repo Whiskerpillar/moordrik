@@ -50,7 +50,7 @@ function checkManifest() {
 
 # ==============	Bash	 ============== #
 function modBash() {
-	echo "--Bash Scripts	${1}	Found: ${#EXECUTABLE_SCRIPTS[@]}."
+	echo "--Bash Scripts	${1}	Found: [${#EXECUTABLE_SCRIPTS[@]}]"
 	
 	case "$1" in
 	
@@ -92,7 +92,7 @@ function modBash() {
 
 # ==============	Services	============== #
 function modServices() {
-	echo "--Services	${1}	Found: ${#SYSTEMD_SERVICES[@]}.	"
+	echo "--Services	${1}	Found: [${#SYSTEMD_SERVICES[@]}]."
 	
 	case "$1" in
 	
@@ -122,10 +122,8 @@ function modServices() {
 			done
 		;;
 		
-		"vaidate" )
-			echo "Debug Service PI"
+		"validate" )
 			if [ ${#SYSTEMD_SERVICES[@]} -gt 0 ]; then
-			echo "Debug Service PO"
 				for service in "${SYSTEMD_SERVICES[@]}"; do
 			  		echo "	-${service}"
 				done
@@ -140,7 +138,7 @@ function modServices() {
 
 # ==============	MoveFiles	============== #
 function modMoveFiles() {
-	echo "--Move Files	${1}	Found: ${#FILES_TO_MOVE[@]}.	"
+	echo "--Move Files	${1}	Found: [${#FILES_TO_MOVE[@]}]"
 	
 	case "$1" in
 	
@@ -196,7 +194,7 @@ function modMoveFiles() {
 			  
 		;;
 		
-		"vaidate" )
+		"validate" )
 			
 			if [ ${#FILES_TO_MOVE[@]} -gt 0 ]; then
 	
@@ -227,7 +225,7 @@ function modMoveFiles() {
 
 # ==============	Link	 ============== #
 function modSymLink() {
-	echo "--Link Files:	${1}	Found: ${#FILES_TO_LINK[@]}.	"
+	echo "--Link Files:	${1}	Found: [${#FILES_TO_LINK[@]}]"
 	
 	case "$1" in
 	
@@ -305,7 +303,7 @@ function modSymLink() {
 
 # ==============	Cleanup	 ============== #
 function modCleanup() {
-	echo "--Clean Files:	${1}	Found: ${#FILES_TO_CLEANUP[@]}.	"
+	echo "--Clean Files:	${1}	Found: [${#FILES_TO_CLEANUP[@]}]"
 	
 	case "$1" in
 	
@@ -392,19 +390,15 @@ function modExecutable() {
 	case "$1" in
 	
 	"install" )
-		
-				echo "Not Supported in this version"
-		
+		echo "Not Supported in this version"
 	;;
 
 	"uninstall" )
-	  	
-				echo "Not Supported in this version"
+		echo "Not Supported in this version"
 	;;
 	
 	"validate" )
-		echo ""
-				echo "Not Supported in this version"
+		echo "Not Supported in this version"
 	;;
 	
 esac
@@ -420,19 +414,15 @@ function modMakeDir() {
 	case "$1" in
 	
 	"install" )
-		
-				echo "Not Supported in this version"
-		
+		echo "Not Supported in this version"
 	;;
 
 	"uninstall" )
-	  	
-				echo "Not Supported in this version"
+	  	echo "Not Supported in this version"
 	;;
 	
 	"validate" )
-		echo ""
-				echo "Not Supported in this version"
+		echo "Not Supported in this version"
 	;;
 	
 esac
