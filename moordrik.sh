@@ -50,13 +50,12 @@ function checkManifest() {
 
 # ==============	Bash	 ============== #
 function modBash() {
-	echo -n "--Bash Scripts:	Found: ${#EXECUTABLE_SCRIPTS[@]}.	"
+	echo "--Bash Scripts:${1}	Found: ${#EXECUTABLE_SCRIPTS[@]}."
 	
 	case "$1" in
 	
 	"install" )
 		if [ ${#EXECUTABLE_SCRIPTS[@]} -gt 0 ]; then
-			echo "-Installing-"
 			for script in "${EXECUTABLE_SCRIPTS[@]}"; do	    
 				if cp -f "${INSTALL_LOCATION}/bash/$script" "/usr/local/bin/"; then
 				  chmod +x /usr/local/bin/"$script"
@@ -70,7 +69,6 @@ function modBash() {
 	  ;;
 
 	"uninstall" )
-	  	echo "-Removing-"
 		for script in "${EXECUTABLE_SCRIPTS[@]}"; do
 			if rm /usr/local/bin/${script}; then
 				echo "${script}' removed successfully."
@@ -81,7 +79,6 @@ function modBash() {
 	;;
 	
 	  "validate" )
-		echo "-Validate-"
 		if [ ${#EXECUTABLE_SCRIPTS[@]} -gt 0 ]; then 
 			for script in "${EXECUTABLE_SCRIPTS[@]}"; do	    
 				echo "	-${script}"
@@ -95,13 +92,12 @@ function modBash() {
 
 # ==============	Services	============== #
 function modServices() {
-	echo -n "--Services:	Found: ${#SYSTEMD_SERVICES[@]}.	"
+	echo "--Services:${1}	Found: ${#SYSTEMD_SERVICES[@]}.	"
 	
 	case "$1" in
 	
 		"install" )
 			if [ ${#SYSTEMD_SERVICES[@]} -gt 0 ]; then
-				echo "-Installing-"
 				for service in "${SYSTEMD_SERVICES[@]}"; do
 					if cp -f "${INSTALL_LOCATION}/services/${service}" "/etc/systemd/system/"; then
 						echo "${service}" >> /dev/null
@@ -143,7 +139,7 @@ function modServices() {
 
 # ==============	MoveFiles	============== #
 function modMoveFiles() {
-	echo -n "--Move Files:	Found: ${#FILES_TO_MOVE[@]}.	"
+	echo "--Move Files:${1}	Found: ${#FILES_TO_MOVE[@]}.	"
 	
 	case "$1" in
 	
@@ -231,7 +227,7 @@ function modMoveFiles() {
 
 # ==============	Link	 ============== #
 function modSymLink() {
-	echo -n "--Link Files:	Found: ${#FILES_TO_LINK[@]}.	"
+	echo"--Link Files:${1}	Found: ${#FILES_TO_LINK[@]}.	"
 	
 	case "$1" in
 	
@@ -309,7 +305,7 @@ function modSymLink() {
 
 # ==============	Cleanup	 ============== #
 function modCleanup() {
-	echo -n "--Clean Files:	Found: ${#FILES_TO_CLEANUP[@]}.	"
+	echo"--Clean Files:${1}	Found: ${#FILES_TO_CLEANUP[@]}.	"
 	
 	case "$1" in
 	
@@ -391,7 +387,7 @@ esac
 
 # ==============	Executable	 ============== #
 function modExecutable() {
-	echo -n "--Executable:	Found: .	"
+	echo "--Executable:${1}	Found: .	"
 	
 	case "$1" in
 	
@@ -419,7 +415,7 @@ esac
 
 # ==============	Create Dir	 ============== #
 function modMakeDir() {
-	echo -n "--Create Dir:	Found: .	"
+	echo "--Create Dir:${1}	Found: .	"
 	
 	case "$1" in
 	
