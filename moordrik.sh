@@ -127,6 +127,7 @@ function modServices() {
 		;;
 		
 		"vaidate" )
+			echo ""
 			if [ ${#SYSTEMD_SERVICES[@]} -gt 0 ]; then
 				for service in "${SYSTEMD_SERVICES[@]}"; do
 			  		echo "	-${service}"
@@ -200,7 +201,7 @@ function modMoveFiles() {
 		;;
 		
 		"vaidate" )
-			echo ""
+			echo " "
 			if [ ${#FILES_TO_MOVE[@]} -gt 0 ]; then
 	
 				for source_path in "${!FILES_TO_MOVE[@]}"; do
@@ -277,7 +278,7 @@ function modSymLink() {
 	;;
 	
 	"validate" )
-		echo ""
+		echo " "
 		if [ ${#FILES_TO_LINK[@]} -gt 0 ]; then
 			for working_source_path in "${!FILES_TO_LINK[@]}"; do
 		
