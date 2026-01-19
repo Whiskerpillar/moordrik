@@ -390,15 +390,15 @@ function modExecutable() {
 	case "$1" in
 	
 	"install" )
-		echo "Not Supported in this version"
+		echo "		Not Supported in this version"
 	;;
 
 	"uninstall" )
-		echo "Not Supported in this version"
+		echo "		Not Supported in this version"
 	;;
 	
 	"validate" )
-		echo "Not Supported in this version"
+		echo "		Not Supported in this version"
 	;;
 	
 esac
@@ -414,15 +414,15 @@ function modMakeDir() {
 	case "$1" in
 	
 	"install" )
-		echo "Not Supported in this version"
+		echo "		Not Supported in this version"
 	;;
 
 	"uninstall" )
-	  	echo "Not Supported in this version"
+	  	echo "		Not Supported in this version"
 	;;
 	
 	"validate" )
-		echo "Not Supported in this version"
+		echo "		Not Supported in this version"
 	;;
 	
 esac
