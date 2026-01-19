@@ -48,7 +48,7 @@ function checkManifest() {
 
 
 
-function mod_Files() {
+function modFiles() {
 	echo -n "--Bash Scripts: ${#EXECUTABLE_SCRIPTS[@]}.  "
 	
 	case "$1" in
@@ -297,7 +297,7 @@ case "$1" in
 		echo "Resource Filepath: ${BASE_FILEPATH}"
 		echo 
 		
-mod-Files ${1}
+modFiles ${1}
 
 		echo "--System Services: 		Found: ${#SYSTEMD_SERVICES[@]}"	 
 		if [ ${#SYSTEMD_SERVICES[@]} -gt 0 ]; then
