@@ -50,7 +50,7 @@ function checkManifest() {
 
 # ==============	Bash	 ============== #
 function modBash() {
-	echo "--Bash Scripts:${1}		Found: ${#EXECUTABLE_SCRIPTS[@]}."
+	echo "--Bash Scripts	-${1}-		Found: ${#EXECUTABLE_SCRIPTS[@]}."
 	
 	case "$1" in
 	
@@ -92,7 +92,7 @@ function modBash() {
 
 # ==============	Services	============== #
 function modServices() {
-	echo "--Services:${1}		Found: ${#SYSTEMD_SERVICES[@]}.	"
+	echo "--Services	-${1}-		Found: ${#SYSTEMD_SERVICES[@]}.	"
 	
 	case "$1" in
 	
@@ -123,6 +123,7 @@ function modServices() {
 		;;
 		
 		"vaidate" )
+		
 			if [ ${#SYSTEMD_SERVICES[@]} -gt 0 ]; then
 			echo "Debug Service"
 				for service in "${SYSTEMD_SERVICES[@]}"; do
@@ -139,7 +140,7 @@ function modServices() {
 
 # ==============	MoveFiles	============== #
 function modMoveFiles() {
-	echo "--Move Files:${1}		Found: ${#FILES_TO_MOVE[@]}.	"
+	echo "--Move Files		-${1}-		Found: ${#FILES_TO_MOVE[@]}.	"
 	
 	case "$1" in
 	
