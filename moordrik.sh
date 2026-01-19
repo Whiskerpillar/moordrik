@@ -111,7 +111,7 @@ function modServices() {
 		  ;;
 	
 		"uninstall" )
-			echo "-Removing-"
+			
 			for service in "${SYSTEMD_SERVICES[@]}"; do
 				if rm /etc/systemd/system/${service}; then
 		  			echo "${service}" >> /dev/null
@@ -123,8 +123,8 @@ function modServices() {
 		;;
 		
 		"vaidate" )
-			echo "-Validate-"
 			if [ ${#SYSTEMD_SERVICES[@]} -gt 0 ]; then
+			echo "Debug Service"
 				for service in "${SYSTEMD_SERVICES[@]}"; do
 			  		echo "	-${service}"
 				done
@@ -145,7 +145,7 @@ function modMoveFiles() {
 	
 		"install" )
 			if [ ${#FILES_TO_MOVE[@]} -gt 0 ]; then
-				echo "-Installing-"
+				
 				for source_path in "${!FILES_TO_MOVE[@]}"; do
 				    destination_path="${FILES_TO_MOVE[$source_path]}"
 				 	home_path="${INSTALL_LOCATION}${source_path}"
@@ -174,7 +174,6 @@ function modMoveFiles() {
 		;;
 	
 		"uninstall" )
-			echo "-Removing-"
 			for source_path in "${!FILES_TO_MOVE[@]}"; do
 		
 				destination_path="${FILES_TO_MOVE[$source_path]}"
@@ -197,7 +196,7 @@ function modMoveFiles() {
 		;;
 		
 		"vaidate" )
-			echo "-Validate-"
+			
 			if [ ${#FILES_TO_MOVE[@]} -gt 0 ]; then
 	
 				for source_path in "${!FILES_TO_MOVE[@]}"; do
@@ -232,7 +231,7 @@ function modSymLink() {
 	case "$1" in
 	
 	"install" )
-		echo "-Installing-"
+		
 		if [ ${#FILES_TO_LINK[@]} -gt 0 ]; then
 			echo "--Creating Symbolic Links"
 			for working_source_path in "${!FILES_TO_LINK[@]}"; do
@@ -269,12 +268,12 @@ function modSymLink() {
 	;;
 
 	"uninstall" )
-	  	echo "-Removing-"
+	  	
 		echo "Warning: Removing linked files not supported by wizard at this version"
 	;;
 	
 	"validate" )
-		echo "-Validate-"
+		
 		if [ ${#FILES_TO_LINK[@]} -gt 0 ]; then
 			for working_source_path in "${!FILES_TO_LINK[@]}"; do
 		
@@ -310,7 +309,7 @@ function modCleanup() {
 	case "$1" in
 	
 	"install" )
-		echo "-Installing-"
+		
 		if [ ${#FILES_TO_CLEANUP[@]} -gt 0 ]; then 
 		echo "--Cleaning up"
 			for cleanfiles in "${FILES_TO_CLEANUP[@]}"; do	    
@@ -334,7 +333,7 @@ function modCleanup() {
 	;;
 
 	"uninstall" )
-	  	echo "-Removing-"
+	  	
 		if [ ${#FILES_TO_CLEANUP[@]} -gt 0 ]; then 
 			echo "--Cleaning up"
 			for cleanfiles in "${FILES_TO_CLEANUP[@]}"; do	    
@@ -359,7 +358,7 @@ function modCleanup() {
 	;;
 	
 	"validate" )
-		echo "-Validate-"
+		
 		if [ ${#FILES_TO_CLEANUP[@]} -gt 0 ]; then 
 		
 			for cleanfiles in "${FILES_TO_CLEANUP[@]}"; do	    
@@ -392,13 +391,13 @@ function modExecutable() {
 	case "$1" in
 	
 	"install" )
-		echo "-Installing-"
+		
 				echo "Not Supported in this version"
 		
 	;;
 
 	"uninstall" )
-	  	echo "-Removing-"
+	  	
 				echo "Not Supported in this version"
 	;;
 	
@@ -420,13 +419,13 @@ function modMakeDir() {
 	case "$1" in
 	
 	"install" )
-		echo "-Installing-"
+		
 				echo "Not Supported in this version"
 		
 	;;
 
 	"uninstall" )
-	  	echo "-Removing-"
+	  	
 				echo "Not Supported in this version"
 	;;
 	
