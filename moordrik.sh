@@ -201,7 +201,7 @@ function modMoveFiles() {
 				for source_path in "${!FILES_TO_MOVE[@]}"; do
 				    destination_path="${FILES_TO_MOVE[$source_path]}"
 				 	home_path="${INSTALL_LOCATION}${source_path}"
-							
+							echo "DEBUG ${source_path}"
 				    # Check if the source is a directory
 				    if [ -d "${home_path}" ]; then
 					 	echo "	dir-$home_path"
@@ -465,14 +465,14 @@ case "$1" in
 		echo "Wiz: Validateing Manifest"
 		INSTALL_LOCATION="${2}${BASE_FILEPATH}"
 		
-		
 		checkManifest ${3}
 		
 		echo
-		echo "Arcane Version: ${ARCANE_VERSION}"
-		echo "Manifest Version: ${MANIFEST_VERSION}"
-		echo "Module Name: ${MODULE_NAME}"
-		echo "Resource Filepath: ${BASE_FILEPATH}"
+		echo "Install Location:	${INSTALL_LOCATION}"
+		echo "Arcane Version:	${ARCANE_VERSION}"
+		echo "Manifest Version:	${MANIFEST_VERSION}"
+		echo "Module Name:	${MODULE_NAME}"
+		echo "Resource Filepath:	${BASE_FILEPATH}"
 		echo 
 		modBash ${1}
 		modServices ${1}
@@ -503,7 +503,7 @@ case "$1" in
 
 
 	*) 
-	echo "Invalid options: $1, $2. use option help to see more options"
+	echo "Invalid option: '$1' use option 'help' to see more options"
 	;;
 
 esac
