@@ -147,7 +147,7 @@ function modMoveFiles() {
 				
 				for source_path in "${!FILES_TO_MOVE[@]}"; do
 				    destination_path="${FILES_TO_MOVE[$source_path]}"
-				 	home_path="${INSTALL_LOCATION}${BASE_FILEPATH}${source_path}"
+				 	home_path="${INSTALL_LOCATION}${source_path}"
 					
 				    # Ensure the destination directory exists
 				    mkdir -p "$destination_path"
