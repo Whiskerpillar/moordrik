@@ -203,7 +203,7 @@ function modMoveFiles() {
 	
 				for source_path in "${!FILES_TO_MOVE[@]}"; do
 				    destination_path="${FILES_TO_MOVE[$source_path]}"
-				 	home_path="${INSTALL_LOCATION}${BASE_FILEPATH}${source_path}"
+				 	home_path="${INSTALL_LOCATION}${source_path}"
 							
 				    # Check if the source is a directory
 				    if [ -d "${home_path}" ]; then
