@@ -1,2 +1,2 @@
 # moordrik
-Moordrik the Wizard. Helps with installing files, and sometimes spells. 
+Moordrik the lazy Wizard. Helps with installing files, and sometimes spells. 
