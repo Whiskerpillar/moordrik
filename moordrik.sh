@@ -147,7 +147,7 @@ function modMoveFiles() {
 				
 				for source_path in "${!FILES_TO_MOVE[@]}"; do
 				    destination_path="${FILES_TO_MOVE[$source_path]}"
-				 	home_path="${INSTALL_LOCATION}${source_path}"
+				 	home_path="${INSTALL_LOCATION}${BASE_FILEPATH}${source_path}"
 					
 				    # Ensure the destination directory exists
 				    mkdir -p "$destination_path"
@@ -434,16 +434,26 @@ esac
 case "$1" in
 
   "install" )
-	#2 Repository Location
-	#3 Manifest Location
+	#2 Repository Location	#3 Manifest Location
   	checkManifest ${3}
-
+	INSTALL_LOCATION="${2}${BASE_FILEPATH}"
 	echo "Starting install of: $MODULE_NAME"
 
-	INSTALL_LOCATION="${2}${BASE_FILEPATH}"
-	echo "debug: Install Location: ${INSTALL_LOCATION}"
-    echo
- 	echo "Wiz: Install Complete"
+	modBash ${1}
+	echo
+	#modServices ${1}
+	echo
+	modMoveFiles ${1}
+	echo
+	#modSymLink ${1}
+	echo
+	#modCleanup ${1}
+	echo
+	#modExecutable ${1}
+	echo
+	#modMakeDir ${1}
+	echo
+	echo "-Install Complete-"
     exit 0
   ;;
 
@@ -462,9 +472,8 @@ case "$1" in
 
 	
 	"validate" )
-		echo "Wiz: Validateing Manifest"
+		echo "Validateing Manifest"
 		INSTALL_LOCATION="${2}${BASE_FILEPATH}"
-		
 		checkManifest ${3}
 		
 		echo
@@ -473,19 +482,24 @@ case "$1" in
 		echo "Manifest Version: ${MANIFEST_VERSION}"
 		echo
 		echo "Install Location: ${INSTALL_LOCATION}"
-		echo "Resource Filepath: ${BASE_FILEPATH}"
-		echo
-
-		echo
-		
+		echo "Resource Filepath: ${BASE_FILEPATH}"	
 		echo 
 		modBash ${1}
+		echo
 		modServices ${1}
+		echo
 		modMoveFiles ${1}
+		echo
 		modSymLink ${1}
+		echo
 		modCleanup ${1}
+		echo
 		modExecutable ${1}
+		echo
 		modMakeDir ${1}
+		echo
+		echo "-Validated-"
+		echo
 	 	exit 0
 	;;
 
