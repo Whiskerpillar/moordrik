@@ -183,14 +183,13 @@ function modMoveFiles() {
 				# Check if the source is a directory
 				if [ -d "${INSTALLED_FILE_PATH}" ]; then
 					rm ${INSTALLED_FILE_PATH} -r
-					echo "---removed"
+					echo " -Removed"
 				# Check if the source is a file
 				elif [ -f "${INSTALLED_FILE_PATH}" ]; then
 					rm ${INSTALLED_FILE_PATH}
-					echo "---removed"
+					echo " -Removed"
 				else
-					echo "-"
-					echo "Warning: Source path '${INSTALLED_FILE_PATH}' is neither a file nor a directory. Skipping."
+					echo "  -Warning: Source path is neither a file nor a directory. Skipping."
 				fi
 				done
 
