@@ -178,15 +178,18 @@ function modMoveFiles() {
 				destination_path="${FILES_TO_MOVE[$source_path]}"
 				INSTALLED_FILE_PATH=${destination_path}/$(basename "${source_path}") 
 					
-				echo "  -Processing: ${INSTALLED_FILE_PATH}"
+				echo -n "  -Removing: ${INSTALLED_FILE_PATH}"
 			
 				# Check if the source is a directory
 				if [ -d "${INSTALLED_FILE_PATH}" ]; then
-					rm ${INSTALLED_FILE_PATH} -r	        
+					rm ${INSTALLED_FILE_PATH} -r
+					echo "---removed"
 				# Check if the source is a file
 				elif [ -f "${INSTALLED_FILE_PATH}" ]; then
 					rm ${INSTALLED_FILE_PATH}
+					echo "---removed"
 				else
+					echo "-"
 					echo "Warning: Source path '${INSTALLED_FILE_PATH}' is neither a file nor a directory. Skipping."
 				fi
 				done
@@ -429,16 +432,17 @@ esac
 }
 
 
+
 #--== MAIN ==--#
 #Starts Main
 case "$1" in
 
 	"install" )
 		#2 Repository Location	#3 Manifest Location
+		echo "Starting install of: $MODULE_NAME"
 	  	checkManifest ${3}
 		INSTALL_LOCATION="${2}${BASE_FILEPATH}"
-		echo "Starting install of: $MODULE_NAME"
-	
+		echo	
 		modBash ${1}
 		echo
 		#modServices ${1}
@@ -461,10 +465,10 @@ case "$1" in
 
 
 	"uninstall" )
+		echo "Starting uninstall of: $MODULE_NAME"
 		checkManifest ${3}
 		INSTALL_LOCATION="${2}${BASE_FILEPATH}"
-		echo "Starting install of: $MODULE_NAME"
-	
+		echo
 		modBash ${1}
 		echo
 		#modServices ${1}
@@ -479,7 +483,7 @@ case "$1" in
 		echo
 		#modMakeDir ${1}
 		echo
-		echo "-Install Complete-"
+		echo "-Removal Complete-"
 		exit 0
 	;;
 
@@ -487,9 +491,8 @@ case "$1" in
 	
 	"validate" )
 		echo "Validateing Manifest"
-		INSTALL_LOCATION="${2}${BASE_FILEPATH}"
 		checkManifest ${3}
-		
+		INSTALL_LOCATION="${2}${BASE_FILEPATH}"
 		echo
 		echo "Module Name: ${MODULE_NAME}"
 		echo "Arcane Version: ${ARCANE_VERSION}"
