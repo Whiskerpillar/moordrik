@@ -1,7 +1,7 @@
 #!/bin/bash
 #Moordrik the Wizard
 #Also known as Moordrik the Vast
-#1.0
+#2.0
 
 #wizard	install /opt/outernet /install/ModuleName.manifest 
 
