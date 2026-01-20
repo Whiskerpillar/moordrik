@@ -200,8 +200,8 @@ function modMoveFiles() {
 	
 				for source_path in "${!FILES_TO_MOVE[@]}"; do
 				    destination_path="${FILES_TO_MOVE[$source_path]}"
-				 	home_path="${INSTALL_LOCATION}${source_path}"
-							echo "DEBUG ${source_path}"
+				 	home_path="${INSTALL_LOCATION}${BASE_FILEPATH}${source_path}"
+							
 				    # Check if the source is a directory
 				    if [ -d "${home_path}" ]; then
 					 	echo "	dir-$home_path"
@@ -468,11 +468,16 @@ case "$1" in
 		checkManifest ${3}
 		
 		echo
-		echo "Install Location:	${INSTALL_LOCATION}"
-		echo "Arcane Version:	${ARCANE_VERSION}"
-		echo "Manifest Version:	${MANIFEST_VERSION}"
-		echo "Module Name:	${MODULE_NAME}"
-		echo "Resource Filepath:	${BASE_FILEPATH}"
+		echo "Module Name: ${MODULE_NAME}"
+		echo "Arcane Version: ${ARCANE_VERSION}"
+		echo "Manifest Version: ${MANIFEST_VERSION}"
+		echo
+		echo "Install Location: ${INSTALL_LOCATION}"
+		echo "Resource Filepath: ${BASE_FILEPATH}"
+		echo
+
+		echo
+		
 		echo 
 		modBash ${1}
 		modServices ${1}
