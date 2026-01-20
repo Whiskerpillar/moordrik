@@ -204,11 +204,11 @@ function modMoveFiles() {
 							
 				    # Check if the source is a directory
 				    if [ -d "${home_path}" ]; then
-					 	echo "	dir-$home_path"
+					 	echo "	dir- $home_path"
 				        
 				    # Check if the source is a file
 				    elif [ -f "${home_path}" ]; then
-					 	echo "	file-$home_path"
+					 	echo "	file- $home_path"
 						
 				    else
 				        echo "Warning: Source path '${home_path}' is neither a file nor a directory."
@@ -433,39 +433,53 @@ esac
 #Starts Main
 case "$1" in
 
-  "install" )
-	#2 Repository Location	#3 Manifest Location
-  	checkManifest ${3}
-	INSTALL_LOCATION="${2}${BASE_FILEPATH}"
-	echo "Starting install of: $MODULE_NAME"
-
-	modBash ${1}
-	echo
-	#modServices ${1}
-	echo
-	modMoveFiles ${1}
-	echo
-	#modSymLink ${1}
-	echo
-	#modCleanup ${1}
-	echo
-	#modExecutable ${1}
-	echo
-	#modMakeDir ${1}
-	echo
-	echo "-Install Complete-"
-    exit 0
-  ;;
+	"install" )
+		#2 Repository Location	#3 Manifest Location
+	  	checkManifest ${3}
+		INSTALL_LOCATION="${2}${BASE_FILEPATH}"
+		echo "Starting install of: $MODULE_NAME"
+	
+		modBash ${1}
+		echo
+		#modServices ${1}
+		echo
+		modMoveFiles ${1}
+		echo
+		#modSymLink ${1}
+		echo
+		#modCleanup ${1}
+		echo
+		#modExecutable ${1}
+		echo
+		#modMakeDir ${1}
+		echo
+		echo "-Install Complete-"
+	    exit 0
+	;;
 
 
 
 
 	"uninstall" )
-		echo "Wiz: Uninstalling Manifest"
-		
-		checkManifest ${2}
-		
-	    echo "uninstalling: $MODULE_NAME"
+		checkManifest ${3}
+		INSTALL_LOCATION="${2}${BASE_FILEPATH}"
+		echo "Starting install of: $MODULE_NAME"
+	
+		modBash ${1}
+		echo
+		#modServices ${1}
+		echo
+		modMoveFiles ${1}
+		echo
+		#modSymLink ${1}
+		echo
+		#modCleanup ${1}
+		echo
+		#modExecutable ${1}
+		echo
+		#modMakeDir ${1}
+		echo
+		echo "-Install Complete-"
 		exit 0
 	;;
 
