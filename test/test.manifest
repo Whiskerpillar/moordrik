@@ -43,5 +43,5 @@ BASE_FILEPATH=/test
 #Create Directories. Uses a full system file path. 
   #Full system file path
     declare -a -g DIRS_TO_CREATE=(
-
+      "${ORIGINAL_USER_HOME}/.moordrik"
     )
