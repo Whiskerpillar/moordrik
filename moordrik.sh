@@ -282,10 +282,13 @@ function modSymLink() {
 			
 				#Strips path and saves file only name
 				file_name=$(basename "$key_source_path")
+				echo ${file_name}
 				#Source Path
-				source_path="${INSTALL_LOCATION}/${FILES_TO_LINK[$key_source_path]}"
+				source_path="${INSTALL_LOCATION}${FILES_TO_LINK[$key_source_path]}"
+				echo ${source_path}
 				#Destination path
-				destination_path="${destination_path}/${file_name}"
+				destination_path="${destination_path}${file_name}"
+				echo ${destination_path}
 		
 				# Check if the source is a directory
 				if [ -d "${source_path}" ]; then
