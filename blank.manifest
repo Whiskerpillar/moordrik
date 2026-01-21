@@ -1,4 +1,5 @@
-# Moordrik the Wizard Manifest File
+# Moordrik the Wizard Manifest File.
+# Blank Manifest version 1.3
 # To use local users home use ${ORIGINAL_USER_HOME}
 
 ARCANE_VERSION=1
@@ -19,12 +20,12 @@ BASE_FILEPATH=/sample
     )
 
 #List of files. Installs from Wizards home location for source path. Key is source, value desitnation. 
-  #[<Specifc File path>] <Destination File Path> 
+  #FILES_TO_MOVE[<Specifc File path>] <Destination File Path> 
     declare -A -g FILES_TO_MOVE
 
 
 #List of Files to Link -symbolic-. Uses hard path for source and desination.
-  #[<Specifc File path>] <Destination File Path> 
+  #FILES_TO_MOVE[<Specifc File path>] <Destination File Path> 
     declare -A -g FILES_TO_LINK
 
 
