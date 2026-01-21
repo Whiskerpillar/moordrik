@@ -284,7 +284,7 @@ function modSymLink() {
 				file_name=$(basename "$key_source_path")
 				echo ${file_name}
 				#Source Path
-				source_path="${INSTALL_LOCATION}${FILES_TO_LINK[$key_source_path]}"
+				source_path="${INSTALL_LOCATION}${BASE_FILEPATH}${FILES_TO_LINK[$key_source_path]}"
 				echo ${source_path}
 				#Destination path
 				destination_path="${destination_path}${file_name}"
