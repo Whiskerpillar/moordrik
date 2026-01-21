@@ -1,0 +1,10 @@
+[Unit]
+Description=Blank Test Moordrik Service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/true
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
