@@ -21,12 +21,12 @@ BASE_FILEPATH=/test
 #List of files. Installs from Wizards home location for source path. Key is source, value desitnation. 
   #FILES_TO_MOVE[<Specifc File path>] <Destination File Path> 
     declare -A -g FILES_TO_MOVE  
-  FILES_TO_MOVE[/testLinkFile] ${ORIGINAL_USER_HOME}/.moordrik/
+  FILES_TO_MOVE[/testMoveFile]="${ORIGINAL_USER_HOME}/.moordrik/"
 
 #List of Files to Link -symbolic-. Uses hard path for source and desination.
   #FILES_TO_LINK[<Specifc File path>] <Destination File Path> 
-    declare -A -g FILES_TO_LINK ${ORIGINAL_USER_HOME}/.moordrik/
-
+    declare -A -g FILES_TO_LINK 
+  FILES_TO_LINK[/testLinkFile]="${ORIGINAL_USER_HOME}/.moordrik/"
 
 #Files to mark as executable.
   #Full system file path
