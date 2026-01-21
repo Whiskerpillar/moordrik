@@ -346,7 +346,7 @@ function modCleanup() {
 				
 				# Check if the source is a directory
 				if [ -d "${cleanfiles}" ]; then
-					rm "${cleanfiles}" 
+					rm "${cleanfiles}" -r
 					echo "	dir-$cleanfiles: successful"
 					
 				# Check if the source is a file
