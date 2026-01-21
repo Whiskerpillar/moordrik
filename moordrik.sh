@@ -243,13 +243,14 @@ function modSymLink() {
 			echo "--Creating Symbolic Links"
 			for l_source_path in "${!FILES_TO_LINK[@]}"; do
 
+				file_name=$(basename "$l_source_path")
 				l_destination_path="${FILES_TO_LINK[$l_source_path]}"
 				l_home_path="${INSTALL_LOCATION}${l_source_path}"
 				
 				mkdir -p "$l_destination_path"
 		
 				# --- Check for idempotence: remove old links first ---
-				if [ -L "$l_destination_path" ] || [ -f "$l_destination_path" ] || [ -d "$l_destination_path" ]; then
+				if [ -L "$l_destination_path" ]; then
 					echo "  -> Removing existing file/link at: ${l_destination_path}"
 					rm -rf "$l_destination_path"
 				fi
