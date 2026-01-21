@@ -377,7 +377,7 @@ function modCleanup() {
 			    elif [ -f "${cleanfiles}" ]; then
 				 	echo "	file-$cleanfiles"
 		  		else
-				  echo "Error: Removing ${cleanfiles}."
+				  echo "Error: ${cleanfiles}."
 				fi
 			done
 		fi
