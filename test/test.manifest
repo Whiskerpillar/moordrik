@@ -1,0 +1,47 @@
+# Moordrik the Wizard Manifest File
+# To use local users home use ${ORIGINAL_USER_HOME}
+
+ARCANE_VERSION=1
+MANIFEST_VERSION=1
+MODULE_NAME="Test Moordrik"
+BASE_FILEPATH=/test
+
+# List of executable scripts to be installed.
+  #(Base Filepath/bash)
+    declare -a -g EXECUTABLE_SCRIPTS=(
+      "testBash.sh"
+    )
+
+# List of systemd services to be installed.
+  #(Base Filepath/services)
+    declare -a -g SYSTEMD_SERVICES=(
+      "testService.service"
+    )
+
+#List of files. Installs from Wizards home location for source path. Key is source, value desitnation. 
+  #FILES_TO_MOVE[<Specifc File path>] <Destination File Path> 
+    declare -A -g FILES_TO_MOVE  
+  FILES_TO_MOVE[/testLinkFile] ${ORIGINAL_USER_HOME}/.moordrik/
+
+#List of Files to Link -symbolic-. Uses hard path for source and desination.
+  #FILES_TO_LINK[<Specifc File path>] <Destination File Path> 
+    declare -A -g FILES_TO_LINK ${ORIGINAL_USER_HOME}/.moordrik/
+
+
+#Files to mark as executable.
+  #Full system file path
+    declare -a -g FILES_TO_EXECUT=(
+
+    )
+
+#Files to cleanup on the system.
+  #"<Full system file path>"
+    declare -a -g FILES_TO_CLEANUP=(
+      "${ORIGINAL_USER_HOME}/.moordrik"
+    )
+
+#Create Directories. Uses a full system file path. 
+  #Full system file path
+    declare -a -g DIRS_TO_CREATE=(
+
+    )
