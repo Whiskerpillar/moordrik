@@ -444,11 +444,11 @@ case "$1" in
 		echo	
 		modBash ${1}
 		echo
-		#modServices ${1}
+		modServices ${1}
 		echo
 		modMoveFiles ${1}
 		echo
-		#modSymLink ${1}
+		modSymLink ${1}
 		echo
 		#modCleanup ${1}
 		echo
@@ -470,11 +470,11 @@ case "$1" in
 		echo
 		modBash ${1}
 		echo
-		#modServices ${1}
+		modServices ${1}
 		echo
 		modMoveFiles ${1}
 		echo
-		#modSymLink ${1}
+		modSymLink ${1}
 		echo
 		#modCleanup ${1}
 		echo
