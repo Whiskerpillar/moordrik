@@ -273,26 +273,31 @@ function modSymLink() {
 	  	
 		echo "Warning: Removing linked files not supported by wizard at this version"
 	;;
+						
 	
 	"validate" )
 		
 		if [ ${#FILES_TO_LINK[@]} -gt 0 ]; then
 			for working_source_path in "${!FILES_TO_LINK[@]}"; do
-		
+			
+				#Strips path and saves file only name
 				file_name=$(basename "$working_source_path")
-				destination_path="${FILES_TO_LINK[$working_source_path]}"
-				file_destination_path="${destination_path}${file_name}"
+				#Source Path
+				source_path="${FILES_TO_LINK[$working_source_path]}"
+				#Destination path
+				destination_path="${destination_path}${file_name}"
 		
 				# Check if the source is a directory
-				if [ -d "${working_source_path}" ]; then
-					echo " 	-> Directory link: ${working_source_path} -> ${file_destination_path}"
+				if [ -d "${source_path}" ]; then
+					echo " 	-> Directory link: ${source_path} -> ${destination_path}"
 					
 				# Check if the source is a file
-				elif [ -f "${working_source_path}" ]; then
-					echo "  -> File link: ${working_source_path} -> ${working_source_path}"
+				elif [ -f "${source_path}" ]; then
+					echo "  -> File link: ${source_path} -> ${destination_path}"
 					
 				else
 					echo "Warning: Source path '${working_source_path}' is neither a file nor a directory. Skipping."
+					echo "Dest Path: $destination_path}. Source path: ${source_path}"
 					# This will exit the script with an error code.
 					exit 1
 				fi
