@@ -48,7 +48,7 @@ function checkManifest() {
         exit 1
     fi
 
-    echo "|Manifest ${MODULE_NAME} Loaded."
+    echo "| '${MODULE_NAME}' Loaded."
 }
 
 
