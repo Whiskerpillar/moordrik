@@ -240,7 +240,6 @@ function modSymLink() {
 	"install" )
 		
 		if [ ${#FILES_TO_LINK[@]} -gt 0 ]; then
-			echo "--Creating Symbolic Links"
 			for l_source_path in "${!FILES_TO_LINK[@]}"; do
 
 				file_name=$(basename "$l_source_path")
@@ -456,7 +455,7 @@ case "$1" in
 		echo
 		modSymLink ${1}
 		echo
-		#modCleanup ${1}
+		modCleanup ${1}
 		echo
 		#modExecutable ${1}
 		echo
@@ -482,7 +481,7 @@ case "$1" in
 		echo
 		modSymLink ${1}
 		echo
-		#modCleanup ${1}
+		modCleanup ${1}
 		echo
 		#modExecutable ${1}
 		echo
@@ -532,9 +531,9 @@ case "$1" in
 
 
 	"help" )
-		echo "install <Base Repo Location> <Manifest File Location>"
-		echo "install <Base Repo Location> <Manifest File Location>"
-		echo "validate <Manifest File Location>"
+		echo "install	<Base Repo Location> <Manifest File Location>"
+		echo "install	<Base Repo Location> <Manifest File Location>"
+		echo "validate	<Base Repo Location> <Manifest File Location>"
 		echo "version"
 		echo "help"
 		echo
