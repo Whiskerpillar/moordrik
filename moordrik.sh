@@ -284,17 +284,16 @@ function modSymLink() {
 				l_home_path="${INSTALL_LOCATION}${l_source_path}"
 
 				# Check if the source is a directory
-				if [ -d "${l_source_path}" ]; then
+				if [ -d "${l_home_path}" ]; then
 					echo " 	-> Directory link: ${l_home_path} -> ${l_destination_path}"
 					
 				# Check if the source is a file
-				elif [ -f "${l_source_path}" ]; then
+				elif [ -f "${l_home_path}" ]; then
 					echo "  -> File link: ${l_home_path} -> ${l_destination_path}"
 					
 				else
 					echo "Warning: Source path '${l_home_path}' is neither a file nor a directory. Skipping."
 					echo "Dest Path: $l_destination_path}. Source path: ${l_source_path}"
-					# This will exit the script with an error code.
 					exit 1
 				fi
 			done
