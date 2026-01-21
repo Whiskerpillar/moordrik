@@ -21,7 +21,7 @@ if [ -z "$SUDO_USER" ]; then
 
 
 function checkManifest() {
-    echo -n "Validateing Manifest|"
+    echo -n "|"
 	# Ensure we actually got a path passed to the function
     local manifest_path="$1"
     
@@ -48,7 +48,7 @@ function checkManifest() {
         exit 1
     fi
 
-    echo "| '${MODULE_NAME}' Loaded."
+    echo "| '${MODULE_NAME}'"
 }
 
 
@@ -457,7 +457,7 @@ case "$1" in
 
 	"install" )
 		#2 Repository Location	#3 Manifest Location
-		echo "Starting install of: $MODULE_NAME"
+		echo -n "Installing "
 	  	checkManifest ${3}
 		INSTALL_LOCATION="${2}${BASE_FILEPATH}"
 		echo
@@ -483,7 +483,7 @@ case "$1" in
 
 
 	"uninstall" )
-		echo "Starting uninstall of: $MODULE_NAME"
+		echo -n "Uninstalling "
 		checkManifest ${3}
 		INSTALL_LOCATION="${2}${BASE_FILEPATH}"
 		echo
@@ -508,6 +508,7 @@ case "$1" in
 
 	
 	"validate" )
+		echo -n "Validating "
 		checkManifest ${3}
 		INSTALL_LOCATION="${2}${BASE_FILEPATH}"
 		echo
