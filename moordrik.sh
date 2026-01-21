@@ -421,7 +421,17 @@ function modMakeDir() {
 	case "$1" in
 	
 	"install" )
-		echo "		Not Supported in this version"
+		if [ ${#DIRS_TO_CREATE[@]} -gt 0 ]; then
+			for new_dirs in "${DIRS_TO_CREATE[@]}"; do	    
+				if mkdir ${new_dirs}; then
+				  echo "	-${new_dirs} :successful."
+				else
+				  echo "Error: Dir could not be created."
+				  exit 1
+				fi
+			    
+			done
+		fi
 	;;
 
 	"uninstall" )
@@ -429,7 +439,11 @@ function modMakeDir() {
 	;;
 	
 	"validate" )
-		echo "		Not Supported in this version"
+		if [ ${#DIRS_TO_CREATE[@]} -gt 0 ]; then
+			for new_dirs in "${DIRS_TO_CREATE[@]}"; do	    
+			echo "	-${new_dirs}"			    
+			done
+		fi
 	;;
 	
 esac
@@ -446,6 +460,7 @@ case "$1" in
 		echo "Starting install of: $MODULE_NAME"
 	  	checkManifest ${3}
 		INSTALL_LOCATION="${2}${BASE_FILEPATH}"
+		echo
 		modCleanup ${1}
 		echo	
 		modBash ${1}
