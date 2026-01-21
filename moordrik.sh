@@ -446,6 +446,7 @@ case "$1" in
 		echo "Starting install of: $MODULE_NAME"
 	  	checkManifest ${3}
 		INSTALL_LOCATION="${2}${BASE_FILEPATH}"
+		modCleanup ${1}
 		echo	
 		modBash ${1}
 		echo
@@ -454,11 +455,9 @@ case "$1" in
 		modMoveFiles ${1}
 		echo
 		modSymLink ${1}
-		echo
-		modCleanup ${1}
-		echo
+		#echo
 		#modExecutable ${1}
-		echo
+		#echo
 		#modMakeDir ${1}
 		echo
 		echo "-Install Complete-"
@@ -482,9 +481,9 @@ case "$1" in
 		modSymLink ${1}
 		echo
 		modCleanup ${1}
-		echo
+		#echo
 		#modExecutable ${1}
-		echo
+		#echo
 		#modMakeDir ${1}
 		echo
 		echo "-Removal Complete-"
