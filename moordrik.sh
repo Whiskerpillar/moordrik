@@ -278,14 +278,14 @@ function modSymLink() {
 	"validate" )
 		
 		if [ ${#FILES_TO_LINK[@]} -gt 0 ]; then
-			for working_source_path in "${!FILES_TO_LINK[@]}"; do
+			for key_source_path in "${!FILES_TO_LINK[@]}"; do
 			
 				#Strips path and saves file only name
-				file_name=$(basename "$working_source_path")
+				file_name=$(basename "$key_source_path")
 				#Source Path
-				source_path="${FILES_TO_LINK[$working_source_path]}"
+				source_path="${INSTALL_LOCATION}/${FILES_TO_LINK[$key_source_path]}"
 				#Destination path
-				destination_path="${destination_path}${file_name}"
+				destination_path="${destination_path}/${file_name}"
 		
 				# Check if the source is a directory
 				if [ -d "${source_path}" ]; then
