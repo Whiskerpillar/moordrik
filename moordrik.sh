@@ -21,29 +21,34 @@ if [ -z "$SUDO_USER" ]; then
 
 
 function checkManifest() {
-    # Ensure we actually got a path passed to the function
+    echo -n "Validateing Manifest|"
+	# Ensure we actually got a path passed to the function
     local manifest_path="$1"
     
     if [ -z "$manifest_path" ]; then
-        echo "Wizard Error: No manifest path provided to checkManifest."
+		echo "X"
+        echo "Manifest Error: No manifest path provided to checkManifest."
         exit 1
     fi
-    
+    echo -n "="
     if [ ! -f "$manifest_path" ]; then
-        echo "Wizard Error: Manifest file '$manifest_path' not found."
+		echo "X"
+        echo "Manifest Error: Manifest file '$manifest_path' not found."
         exit 1
     fi
-    
+
+	echo -n "="
     # Source the file to bring variables into global scope
     source "$manifest_path"
-
-    # Correct arithmetic comparison
+	
+ 	echo -n "="
     if (( ARCANE_VERSION != ARCANE_TALENT )); then
-        echo "Wizard Error: Manifest version: $ARCANE_VERSION does not match Wizard: $ARCANE_TALENT."
+		echo "X"
+        echo "Manifest Error: Manifest version: $ARCANE_VERSION does not match Wizard: $ARCANE_TALENT."
         exit 1
     fi
 
-    echo "Wiz: Manifest ${MODULE_NAME} Loaded."
+    echo "|Manifest ${MODULE_NAME} Loaded."
 }
 
 
@@ -236,32 +241,31 @@ function modSymLink() {
 		
 		if [ ${#FILES_TO_LINK[@]} -gt 0 ]; then
 			echo "--Creating Symbolic Links"
-			for working_source_path in "${!FILES_TO_LINK[@]}"; do
-		
-				file_name=$(basename "$working_source_path")
-				destination_path="${FILES_TO_LINK[$working_source_path]}"
-				file_destination_path="${destination_path}${file_name}"
+			for l_source_path in "${!FILES_TO_LINK[@]}"; do
+
+				l_destination_path="${FILES_TO_LINK[$l_source_path]}"
+				l_home_path="${INSTALL_LOCATION}${l_source_path}"
 				
-				mkdir -p "$destination_path"
+				mkdir -p "$l_destination_path"
 		
 				# --- Check for idempotence: remove old links first ---
-				if [ -L "$file_destination_path" ] || [ -f "$file_destination_path" ] || [ -d "$file_destination_path" ]; then
-					echo "  -> Removing existing file/link at: ${file_destination_path}"
-					rm -rf "$file_destination_path"
+				if [ -L "$l_destination_path" ] || [ -f "$l_destination_path" ] || [ -d "$l_destination_path" ]; then
+					echo "  -> Removing existing file/link at: ${l_destination_path}"
+					rm -rf "$l_destination_path"
 				fi
 		
 				# Check if the source is a directory
-				if [ -d "${working_source_path}" ]; then
-					ln -s "${working_source_path}" "${file_destination_path}"
-					echo "  -> Directory link created: ${working_source_path} -> ${file_destination_path}"
+				if [ -d "${l_home_path}" ]; then
+					ln -s "${l_home_path}" "${l_destination_path}"
+					echo "  -> Directory link created: ${l_home_path} -> ${l_destination_path}"
 					
 				# Check if the source is a file
-				elif [ -f "${working_source_path}" ]; then
-					ln -s "${working_source_path}" "${file_destination_path}"
-					echo "  -> File link created: ${working_source_path} -> ${file_destination_path}"
+				elif [ -f "${l_home_path}" ]; then
+					ln -s "${l_home_path}" "${l_destination_path}"
+					echo "  -> File link created: ${l_home_path} -> ${l_destination_path}"
 					
 				else
-					echo "Warning: Source path '${working_source_path}' is neither a file nor a directory. Skipping."
+					echo "Warning: Source path '${l_home_path}' is neither a file nor a directory. Skipping."
 					# This will exit the script with an error code.
 					exit 1
 				fi
@@ -490,7 +494,6 @@ case "$1" in
 
 	
 	"validate" )
-		echo "Validateing Manifest"
 		checkManifest ${3}
 		INSTALL_LOCATION="${2}${BASE_FILEPATH}"
 		echo
