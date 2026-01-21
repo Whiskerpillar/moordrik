@@ -278,29 +278,22 @@ function modSymLink() {
 	"validate" )
 		
 		if [ ${#FILES_TO_LINK[@]} -gt 0 ]; then
-			for key_source_path in "${!FILES_TO_LINK[@]}"; do
-			
-				#Strips path and saves file only name
-				file_name=$(basename "$key_source_path")
-				echo ${file_name}
-				#Source Path
-				source_path="${INSTALL_LOCATION}${BASE_FILEPATH}${FILES_TO_LINK[$key_source_path]}"
-				echo ${source_path}
-				#Destination path
-				destination_path="${destination_path}${file_name}"
-				echo ${destination_path}
-		
+			for l_source_path in "${!FILES_TO_LINK[@]}"; do
+
+				l_destination_path="${FILES_TO_LINK[$l_source_path]}"
+				l_home_path="${INSTALL_LOCATION}${l_source_path}"
+
 				# Check if the source is a directory
-				if [ -d "${source_path}" ]; then
-					echo " 	-> Directory link: ${source_path} -> ${destination_path}"
+				if [ -d "${l_source_path}" ]; then
+					echo " 	-> Directory link: ${l_home_path} -> ${l_destination_path}"
 					
 				# Check if the source is a file
-				elif [ -f "${source_path}" ]; then
-					echo "  -> File link: ${source_path} -> ${destination_path}"
+				elif [ -f "${l_source_path}" ]; then
+					echo "  -> File link: ${l_home_path} -> ${l_destination_path}"
 					
 				else
-					echo "Warning: Source path '${working_source_path}' is neither a file nor a directory. Skipping."
-					echo "Dest Path: $destination_path}. Source path: ${source_path}"
+					echo "Warning: Source path '${l_home_path}' is neither a file nor a directory. Skipping."
+					echo "Dest Path: $l_destination_path}. Source path: ${l_source_path}"
 					# This will exit the script with an error code.
 					exit 1
 				fi
