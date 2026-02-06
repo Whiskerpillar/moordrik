@@ -7,7 +7,7 @@
 
 #Version of the Wizard. Talent prevents old Manifests. Version is release of the wizard
 ARCANE_TALENT=1
-RELEASE_VERSION="1.780"
+RELEASE_VERSION="1.790"
 
 #Collects the logged in users home file path. 
 ORIGINAL_USER_HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6)
@@ -393,21 +393,36 @@ esac
 
 # ==============	Executable	 ============== #
 function modExecutable() {
-	echo "--Executable:	${1}	Found: .	"
+	echo "--Executable:	${1}	Found: [${#FILES_TO_EXECUT[@]}]"
 	
 	case "$1" in
 	
 	"install" )
-		echo "		Not Supported in this version"
-	;;
+		if [ ${#FILES_TO_EXECUT[@]} -gt 0 ]; then
+			for script in "${FILES_TO_EXECUT[@]}"; do	    
+				if chmod +x /usr/local/bin/"$script"; then
+					echo "	-${script} :successful."
+				else
+				  echo "Error: Service Scripts could not be moved."
+				  exit 1
+				fi
+			    
+			done
+		fi
+	  ;;
 
 	"uninstall" )
-		echo "		Not Supported in this version"
+	echo "-"
 	;;
 	
-	"validate" )
-		echo "		Not Supported in this version"
-	;;
+	  "validate" )
+		if [ ${#FILES_TO_EXECUT[@]} -gt 0 ]; then 
+			for script in "${FILES_TO_EXECUT[@]}"; do	    
+				echo "	-${script}"
+			done
+		fi
+	  ;;
+	esac
 	
 esac
 }
