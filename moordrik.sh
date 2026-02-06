@@ -542,7 +542,7 @@ case "$1" in
 
 
 	"release" )
-		echo ${ARCANE_TALENT}
+		echo ${RELEASE_VERSION}
 	;;
 
 	"talent" )
@@ -552,7 +552,7 @@ case "$1" in
 	"version" )
 		echo "Moordrik the Wizard"
 		echo "Arcane Talent: ${ARCANE_TALENT}"
-		echo "Release Version : ${RELEASE_VERSION"}
+		echo "Release Version : ${RELEASE_VERSION}"
 	;;
 
 
