@@ -487,8 +487,8 @@ case "$1" in
 		modMoveFiles ${1}
 		echo
 		modSymLink ${1}
-		#echo
-		#modExecutable ${1}
+		echo
+		modExecutable ${1}
 		echo
 		echo "-Install Complete-"
 	    exit 0
@@ -511,8 +511,8 @@ case "$1" in
 		modSymLink ${1}
 		echo
 		modCleanup ${1}
-		#echo
-		#modExecutable ${1}
+		echo
+		modExecutable ${1}
 		echo
 		modMakeDir ${1}
 		echo
