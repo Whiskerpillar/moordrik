@@ -250,9 +250,9 @@ function modSymLink() {
 				mkdir -p "$l_destination_path"
 		
 				# --- Check for idempotence: remove old links first ---
-				if [ -L "$l_destination_path" ]; then
-					echo "  -> Removing existing file/link at: ${l_destination_path}"
-					rm -rf "$l_destination_path"
+				if [ -L "$l_destination_path/${file_name}" ]; then
+					echo "  -> Removing existing file/link at: ${l_destination_path}-/${file_name} "
+					rm -rf "$l_destination_path/${file_name}"
 				fi
 		
 				# Check if the source is a directory
