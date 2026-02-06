@@ -555,7 +555,7 @@ case "$1" in
 
 
 
-	"release" )
+	"version" )
 		echo ${RELEASE_VERSION}
 	;;
 
@@ -563,7 +563,7 @@ case "$1" in
 		echo ${ARCANE_TALENT}
 	;;
 
-	"version" )
+	"info" )
 		echo "Moordrik the Wizard"
 		echo "Arcane Talent: ${ARCANE_TALENT}"
 		echo "Release Version : ${RELEASE_VERSION}"
@@ -574,9 +574,9 @@ case "$1" in
 		echo "install	<Base Repo Location> <Manifest File Location>"
 		echo "install	<Base Repo Location> <Manifest File Location>"
 		echo "validate	<Base Repo Location> <Manifest File Location>"
-		echo "version	-Returns the release and talent"
+		echo "info		-Returns the release and talent"
 		echo "talent	-Returns the manifest version of the wizard"
-		echo "release	-Returns the current release version of the wizard"
+		echo "version	-Returns the current release version of the wizard"
 		echo "help"
 		echo
 		echo "Talent prevents old Manifests. Version is release of the wizard"
