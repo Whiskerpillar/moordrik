@@ -400,7 +400,7 @@ function modExecutable() {
 	"install" )
 		if [ ${#FILES_TO_EXECUT[@]} -gt 0 ]; then
 			for script in "${FILES_TO_EXECUT[@]}"; do	    
-				if chmod +x /usr/local/bin/"$script"; then
+				if chmod +x "$script"; then
 					echo "	-${script} :successful."
 				else
 				  echo "Error: Service Scripts could not be moved."
