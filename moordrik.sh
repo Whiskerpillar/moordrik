@@ -298,7 +298,7 @@ function modSymLink() {
 				else
 					echo "Warning: Source path '${l_home_path}' is neither a file nor a directory. Skipping."
 					echo "Dest Path: $l_destination_path}. Source path: ${l_source_path}"
-					exit 1
+					echo
 				fi
 			done
 		fi
