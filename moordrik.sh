@@ -5,8 +5,9 @@
 
 #wizard	install /opt/outernet /install/ModuleName.manifest 
 
-#Version of the Wizard. To prevent old or mismatched manifests running. 
+#Version of the Wizard. Talent prevents old Manifests. Version is release of the wizard
 ARCANE_TALENT=1
+VERSION="1.780"
 
 #Collects the logged in users home file path. 
 ORIGINAL_USER_HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6)
@@ -540,7 +541,15 @@ case "$1" in
 
 
 
-	"version" )
+	"release" )
+		echo ${ARCANE_TALENT}
+	;;
+
+	"talent" )
+		echo ${ARCANE_TALENT}
+	;;
+
+	"talent" )
 		echo ${ARCANE_TALENT}
 	;;
 
@@ -549,9 +558,12 @@ case "$1" in
 		echo "install	<Base Repo Location> <Manifest File Location>"
 		echo "install	<Base Repo Location> <Manifest File Location>"
 		echo "validate	<Base Repo Location> <Manifest File Location>"
-		echo "version"
+		echo "version	-Returns the release and talent"
+		echo "talent	-Returns the manifest version of the wizard"
+		echo "release	-Returns the current release version of the wizard"
 		echo "help"
 		echo
+		echo "Talent prevents old Manifests. Version is release of the wizard"
 		echo "--Exsamples: install ~/MyPackage ~/MyPackage/install/MyPackage.manifest"
 	;;
 
