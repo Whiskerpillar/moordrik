@@ -412,17 +412,16 @@ function modExecutable() {
 	  ;;
 
 	"uninstall" )
-	echo "-"
+		echo "-"
 	;;
 	
-	  "validate" )
+	"validate" )
 		if [ ${#FILES_TO_EXECUT[@]} -gt 0 ]; then 
 			for script in "${FILES_TO_EXECUT[@]}"; do	    
 				echo "	-${script}"
 			done
 		fi
-	  ;;
-	esac
+	;;
 	
 esac
 }
