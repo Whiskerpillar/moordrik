@@ -7,7 +7,7 @@
 
 #Version of the Wizard. Talent prevents old Manifests. Version is release of the wizard
 ARCANE_TALENT=1
-VERSION="1.780"
+RELEASE_VERSION="1.780"
 
 #Collects the logged in users home file path. 
 ORIGINAL_USER_HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6)
@@ -549,8 +549,10 @@ case "$1" in
 		echo ${ARCANE_TALENT}
 	;;
 
-	"talent" )
-		echo ${ARCANE_TALENT}
+	"version" )
+		echo "Moordrik the Wizard"
+		echo "Arcane Talent: ${ARCANE_TALENT}"
+		echo "Release Version : ${RELEASE_VERSION"}
 	;;
 
 
