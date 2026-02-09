@@ -212,13 +212,13 @@ function modMoveFiles() {
 							
 				    # Check if the source is a directory
 				    if [ -d "${home_path}" ]; then
-					 	echo "	dir- $home_path"
-						echo "	Destination > $destination_path"
+					 	echo -n "	dir- $home_path"
+						echo "	 > $destination_path"
 				        
 				    # Check if the source is a file
 				    elif [ -f "${home_path}" ]; then
-					 	echo "	file- $home_path"
-						echo "	  Destination > $destination_path"
+					 	echo -n "	file- $home_path"
+						echo "	   > $destination_path"
 				    else
 				        echo "Warning: Source path '${home_path}' is neither a file nor a directory."
 					 	exit 1
