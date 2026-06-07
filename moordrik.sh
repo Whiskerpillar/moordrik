@@ -245,33 +245,29 @@ function modSymLink() {
 
 				file_name=$(basename "$l_source_path")
 				l_destination_path="${FILES_TO_LINK[$l_source_path]}"
-				if [[ "$l_source_path" = /* ]]; then
-					l_home_path="$l_source_path"
-				else
-					l_home_path="${INSTALL_LOCATION}${l_source_path}"
-				fi
-
-				if [[ "$l_destination_path" == */ ]]; then
-					l_target_path="${l_destination_path}${file_name}"
-					mkdir -p "$l_destination_path"
-				elif [ -d "$l_destination_path" ]; then
-					l_target_path="${l_destination_path}/${file_name}"
-				else
-					l_target_path="$l_destination_path"
-					mkdir -p "$(dirname "$l_target_path")"
-				fi
-
+				l_home_path="${INSTALL_LOCATION}${l_source_path}"
+				
+				mkdir -p "$l_destination_path"
+		
 				# --- Check for idempotence: remove old links first ---
-				if [ -L "$l_target_path" ] || [ -e "$l_target_path" ]; then
-					echo "  -> Removing existing file/link at: ${l_target_path}"
-					rm -rf "$l_target_path"
+				if [ -L "$l_destination_path/${file_name}" ]; then
+					echo "  -> Removing existing file/link at: ${l_destination_path}-/${file_name} "
+					rm -rf "$l_destination_path/${file_name}"
 				fi
-
-				if [ -d "${l_home_path}" ] || [ -f "${l_home_path}" ]; then
-					ln -s "${l_home_path}" "${l_target_path}"
-					echo "  -> Link created: ${l_home_path} -> ${l_target_path}"
+		
+				# Check if the source is a directory
+				if [ -d "${l_home_path}" ]; then
+					ln -s "${l_home_path}" "${l_destination_path}"
+					echo "  -> Directory link created: ${l_home_path} -> ${l_destination_path}"
+					
+				# Check if the source is a file
+				elif [ -f "${l_home_path}" ]; then
+					ln -s "${l_home_path}" "${l_destination_path}"
+					echo "  -> File link created: ${l_home_path} -> ${l_destination_path}"
+					
 				else
 					echo "Warning: Source path '${l_home_path}' is neither a file nor a directory. Skipping."
+					# This will exit the script with an error code.
 					exit 1
 				fi
 			done
@@ -282,36 +278,39 @@ function modSymLink() {
 	  	
 		echo "Warning: Removing linked files not supported by wizard at this version"
 	;;
-			
+						
 	
 	"validate" )
 		
 		if [ ${#FILES_TO_LINK[@]} -gt 0 ]; then
 			for l_source_path in "${!FILES_TO_LINK[@]}"; do
 
-				file_name=$(basename "$l_source_path")
 				l_destination_path="${FILES_TO_LINK[$l_source_path]}"
-				if [[ "$l_source_path" = /* ]]; then
-					l_home_path="$l_source_path"
-				else
-					l_home_path="${INSTALL_LOCATION}${l_source_path}"
-				fi
+				l_home_path="${INSTALL_LOCATION}${l_source_path}"
 
-				if [[ "$l_destination_path" == */ ]]; then
-					l_target_path="${l_destination_path}${file_name}"
-				elif [ -d "$l_destination_path" ]; then
-					l_target_path="${l_destination_path}/${file_name}"
-				else
-					l_target_path="$l_destination_path"
-				fi
-
+				# Check if the source is a directory
 				if [ -d "${l_home_path}" ]; then
-					echo " 	-> Directory link: ${l_home_path} -> ${l_target_path}"
+					echo " 	-> Directory link: ${l_home_path} -> ${l_destination_path}"
+					
+				# Check if the source is a file
 				elif [ -f "${l_home_path}" ]; then
-					echo "  -> File link: ${l_home_path} -> ${l_target_path}"
+					echo "  -> File link: ${l_home_path} -> ${l_destination_path}"
+					
 				else
 					echo "Warning: Source path '${l_home_path}' is neither a file nor a directory. Skipping."
-					echo "Dest Path: ${l_target_path}. Source path: ${l_source_path}"
+					echo "Dest Path: $l_destination_path}. Source path: ${l_source_path}"
+					echo
+				fi
+			done
+		fi
+	;;
+	esac
+}
+
+
+
+# ==============	Cleanup	 ============== #
+function modCleanup() {
 	echo "--Clean Files:	${1}	Found: [${#FILES_TO_CLEANUP[@]}]"
 	
 	case "$1" in
